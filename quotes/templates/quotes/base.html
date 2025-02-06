@@ -1,3 +1,5 @@
+<!-- quotes/templates/quotes/base.html -->
+
 {% load static %}
 <html>
     <head>
@@ -5,6 +7,8 @@
         <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
     </head>
     <body>
+        <!-- navbar -->
+
     <nav>
         <ul>
             <li><a href="{% url 'quote' %}">Quote</a></li>
@@ -14,6 +18,8 @@
 
     </nav>
     
+    <!-- content -->
+
     <h1> Susan Sontag Quote Generator</h1>
 
     {% block content %}

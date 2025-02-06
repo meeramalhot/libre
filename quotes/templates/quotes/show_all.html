@@ -2,7 +2,10 @@
 
 {% block content %}
 
+<!-- loops to display images and quotes -->
+
 <div>
+  <h2>Images of Susan Sontag</h2>
   <ul>
   {% for image in images %}
 
@@ -12,7 +15,7 @@
   </ul>
 
 <br>
-
+  <h2>Susan Sontag Quotes</h2>
   <ul>
   {% for quote in quotes_list %}
   <li class="here">"{{ quote }}"</li>
