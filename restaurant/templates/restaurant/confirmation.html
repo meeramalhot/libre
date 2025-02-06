@@ -1,0 +1,28 @@
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+
+<!-- loops to display images and quotes -->
+
+<div>
+  <h2>Images of Susan Sontag</h2>
+  <ul>
+  {% for image in images %}
+
+  <li class="here"><img src ={{image}} width="300px" height="300px"></li>
+
+  {% endfor %} 
+  </ul>
+
+<br>
+  <h2>Susan Sontag Quotes</h2>
+  <ul>
+  {% for quote in quotes_list %}
+  <li class="here">"{{ quote }}"</li>
+  <p><br></p>
+  {% endfor %} 
+  </ul>
+
+</div>
+
+{% endblock %}

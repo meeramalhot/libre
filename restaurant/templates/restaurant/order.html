@@ -1,0 +1,13 @@
+{% extends 'quotes/base.html' %}
+{% load static %}
+
+<!-- context variables for images and quotes to be picked randomly -->
+
+{% block content %}
+
+<div>
+  <p>"{{quote}}"</p>
+  <img src={{image}} alt="susan sontag"  width="300px" height="300px">
+</div>
+
+{% endblock %}
