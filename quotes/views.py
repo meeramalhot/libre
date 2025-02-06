@@ -9,8 +9,7 @@ quotes_list =["My library is an archive of longings",
          "To paraphrase several sages: Nobody can think and hit someone at the same time",
          ]
 
-images = ['/static/image1.jpg', '/static/image2.webp', '/static/image3.webp']
-
+images = ['https://cs-webapps.bu.edu/meeram/static/image1.jpg', 'https://cs-webapps.bu.edu/meeram/static/image2.webp', 'https://cs-webapps.bu.edu/meeram/static/image3.webp']
 
 def quote(request):
   template_name = 'quotes/quote.html'
