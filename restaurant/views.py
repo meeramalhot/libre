@@ -6,9 +6,12 @@ import time
 from datetime import datetime
 
 
-daily_specials = ["Olive Bread", "Pain aux Raisin", "Ginger Molasses Cookie", "Almond Macaroon", "Boston Cream Pie", 
-                  "Guava-Filled Pan Dulce", "Mille-Feuille", "Red Velvet Cake"]
+daily_specials = ["Olive Bread $3", "Pain aux Raisin $5", "Ginger Molasses Cookie $2", "Almond Macaroon $2", "Boston Cream Pie $4", 
+                  "Guava-Filled Pan Dulce $3", "Mille-Feuille $3", "Red Velvet Cake $4"]
 
+daily_prices = [3,5,2,2,4,3,3,4]
+daily_name = ["Olive Bread", "Pain aux Raisin", "Ginger Molasses Cookie", 
+              "Almond Macaroon", "Boston Cream Pie", "Guava-Filled Pan Dulce", "Mille-Feuille", "Red Velvet Cake"]
 
 def confirmation(request: HttpRequest):
   sum = 0
@@ -42,8 +45,8 @@ def confirmation(request: HttpRequest):
               chosen.append("Baguette")
               sum +=3
         if ('special' in request.POST):
-            special = request.POST['special']
-            chosen.append(special)
+            chosen.append(daily_name[index])
+            sum += (daily_prices[index])
         if ('cakeSelection' in request.POST):
             cakeSelection = request.POST.getlist('cakeSelection')
             cupcake = cakeSelection
@@ -69,13 +72,11 @@ def confirmation(request: HttpRequest):
 
   return render(request, template_name=template_name, context=context)
 
-
-
+index = random.randint(0,7)
+day = daily_specials[index]
 
 def order(request):
   template_name = 'restaurant/order.html'
-  index = random.randint(0,7)
-  day = daily_specials[index]
 
   context = {"special" : day}
 
