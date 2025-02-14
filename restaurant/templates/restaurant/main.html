@@ -1,32 +1,24 @@
-<!-- quotes/templates/quotes/base.html -->
+{% extends 'restaurant/base.html' %}
 
-{% load static %}
+{% block content %}
+
 <html>
-    <head>
-        <title>Quotes</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
-    </head>
-    <body>
-        <!-- navbar -->
 
-    <nav>
+    <div>
+        <p><strong>Location:</strong>Bay State, Boston</p>
+        <h3>Hours of Operation:</h3>
         <ul>
-            <li><a href="{% url 'quote' %}">Quote</a></li>
-            <li><a href="{% url 'show_all' %}">Show All</a></li>
-            <li><a href="{% url 'about' %}">About</a></li>
+          <li><strong>Monday:</strong> Closed </li> <br>
+          <li><strong>Tuesday:</strong> 7:00 AM - 5:00 PM</li> <br>
+          <li><strong>Wednesday:</strong> 7:00 AM - 5:00 PM</li> <br>
+          <li><strong>Thursday:</strong> 7:00 AM - 5:00 PM</li> <br>
+          <li><strong>Friday:</strong> 7:00 AM - 5:00 PM</li> <br>
+          <li><strong>Saturday:</strong> 7:00 AM - 5:00 PM</li> <br>
+          <li><strong>Sunday:</strong> Closed</li> <br>
         </ul>
-
-    </nav>
-    
-    <!-- content -->
-
-    <h1> Susan Sontag Quote Generator</h1>
-
-    {% block content %}
+      </div>
+      
 
     {% endblock %}
     
-
-    </body>
 </html>
-

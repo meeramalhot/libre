@@ -1,0 +1,31 @@
+{% load static %}
+<html>
+    <head>
+        <title>Bakery</title>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    </head>
+    <body>
+        <!-- navbar -->
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'main' %}">Main</a></li>
+            <li><a href="{% url 'order' %}">Order</a></li>
+        </ul>
+    </nav>
+    
+    <!-- content -->
+    <div>
+    <h1>Welcome to Boston Bakery</h1>
+    <img src="https://cs-webapps.bu.edu/meeram/static/bakery.jpg">
+    </div>
+
+    {% block content %}
+
+    {% endblock %}
+    
+
+ </body>
+</html>
+
+
