@@ -1,8 +1,12 @@
+    <!-- author: meera malhotra
+date: 2/14
+restaurant/confirmation.html
+display the information entered in the form -->
+
 {% extends 'restaurant/base.html' %}
 
 {% block content %}
 
-<!-- loops to display images and quotes -->
 
 <div>
   <h1>Confirmation</h1>
@@ -10,9 +14,13 @@
   <p>Hi, {{name}}!</p>
 
   <h2>You ordered: </h2>
+  <!-- loops to display picked food -->
+
   {% for food in chosen %}
   <p>{{ food }}</p>
   {% endfor %} 
+  <!-- loops to display picked cupcake -->
+
   {% for cake in cupcake %}
   <p>{{cake}}</p>
   {% endfor %} 
@@ -20,6 +28,8 @@
   <br>
 
   <h2>Order Information</h2>
+  <!-- give time total and special instructions -->
+
   <p> Your order will be ready at {{time}}</p>
   <p> Your total is: ${{sum}}</p>
   <p>Special Instructions: {{special_instructions}}</p>

@@ -1,3 +1,10 @@
+"""
+author: meera malhotra
+date: 2/14
+views.py
+logic to order and provide confirmation
+"""
+
 # Create your views here.
 from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
@@ -13,6 +20,8 @@ daily_prices = [3,5,2,2,4,3,3,4]
 daily_name = ["Olive Bread", "Pain aux Raisin", "Ginger Molasses Cookie", 
               "Almond Macaroon", "Boston Cream Pie", "Guava-Filled Pan Dulce", "Mille-Feuille", "Red Velvet Cake"]
 
+
+'''Processes form data giving the time, what was ordered and price of what was ordered'''
 def confirmation(request: HttpRequest):
   sum = 0
   template_name = 'restaurant/confirmation.html'
@@ -21,6 +30,7 @@ def confirmation(request: HttpRequest):
   add_time = random.randint(30, 60)
   t = current + add_time
 
+  #get delayed time
   time_at = datetime.fromtimestamp(t).strftime('%A, %Y-%m-%d %H:%M:%S')
   print(request.POST)
 
@@ -30,6 +40,7 @@ def confirmation(request: HttpRequest):
   cupcake = []
 
   #check if post data was sent with HTTP POST message
+  #add to an array to see what was purchased
   if request.POST:
          #name is a required field
         if('name' in request.POST):
@@ -75,6 +86,7 @@ def confirmation(request: HttpRequest):
 index = random.randint(0,7)
 day = daily_specials[index]
 
+'''display random special on order form'''
 def order(request):
   template_name = 'restaurant/order.html'
 
@@ -83,8 +95,7 @@ def order(request):
   return render(request, template_name, context=context)
 
 
-
-
+'''render main'''
 def main(request):
   template_name = 'restaurant/main.html'
 

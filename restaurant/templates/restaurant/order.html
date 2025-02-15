@@ -1,3 +1,8 @@
+    <!-- author: meera malhotra
+date: 2/14
+restaurant/order.html
+logic to order and provide confirmation -->
+
 {% extends 'restaurant/base.html' %}
 {% load static %}
 
@@ -6,6 +11,8 @@
 {% block content %}
 <div>
   <br>
+
+<!-- send to confirmation with a post method-->
 
 <h2>Place An Order</h2>
 <form action="{% url 'confirmation' %}" method="POST">
@@ -18,6 +25,8 @@
   <input type="checkbox" name="bread">
   Baguette $3
 
+  <!-- select cupacke with options -->
+
   <p>Select a Cupcake</p>
   <input type="checkbox" name="cakeSelection" value="Chocolate Fudge Cupcake" id="chocolate-cupcake">
   <label for="chocolate-cupcake">Chocolate Fudge Cupcake, $3</label> <br>
@@ -27,12 +36,18 @@
   <label for="red-velvet-cupcake">Red Velvet Cream Cheese Cupcake, $3</label>
   
 
+    <!-- display special -->
+
   <h3>Today's Special</h3>
   <p>{{special}}</p><input type="checkbox" name="special">
+
+      <!-- text area for special instructions -->
 
   <h3>Special Instructions</h3>
   <p>Please share any special instructions:</p>
   <textarea name="special_instructions" rows="3" cols="60"></textarea>
+
+      <!-- required customer information -->
 
   <h3>Customer Information</h3>
   <p>Name:</p>
