@@ -1,0 +1,28 @@
+<!-- templates/show_all.html -->
+
+{% extends 'mini_fb/base.html' %}
+<!-- scriptlet code to display the value of the variable `articles` 
+{{ articles }}
+-->
+{% block content %}
+    <h1>Showing all Profiles</h1>
+    
+    <table>
+            <tr>
+                <th>Profile Picture</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>City</th>
+            </tr>
+            {% for p in profiles %}
+            <tr>
+                <td>
+                    <img src="{{ p.image_url }}" alt="{{ p.image_url }}"  style="max-width:100px;max-height:100px;">
+                </td>
+                <td>{{ p.first_name }} {{ p.last_name }}</td>
+                <td>{{ p.email }}</td>
+                <td>{{ p.city }}</td>
+            </tr>
+            {% endfor %}
+    </table>
+{% endblock %}
