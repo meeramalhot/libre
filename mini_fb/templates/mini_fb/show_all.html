@@ -1,19 +1,18 @@
 <!-- templates/show_all.html -->
 
 {% extends 'mini_fb/base.html' %}
-<!-- scriptlet code to display the value of the variable `articles` 
-{{ articles }}
+<!-- scriptlet code to display the value of the variable `profiles` 
 -->
 {% block content %}
     <h1>Showing all Profiles</h1>
     
     <table>
-            <tr>
-                <th>Profile Pic</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>City</th>
-            </tr>
+        <tr>
+            <th>Profile Pic</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>City</th>
+        </tr>
             {% for p in profiles %}
             <tr>
                 <td>
