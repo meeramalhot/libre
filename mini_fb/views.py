@@ -1,3 +1,3 @@
 from django.shortcuts import render
-
-# Create your views here.
+from .models import Person
+from django.views.generic import ListView
