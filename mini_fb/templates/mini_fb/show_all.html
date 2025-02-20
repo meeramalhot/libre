@@ -16,9 +16,16 @@
             {% for p in profiles %}
             <tr>
                 <td>
+                    <a href="{% url 'show_profile' p.pk %}">
                     <img src="{{ p.image_url }}" alt="{{ p.image_url }}"  style="max-width:100px;max-height:100px;">
+                     </a>
                 </td>
-                <td>{{ p.first_name }} {{ p.last_name }}</td>
+                <td> <a href="{% url 'show_profile' p.pk %}">
+
+                    {{ p.first_name }} {{ p.last_name }}
+                </a>
+                </td>
+
                 <td>{{ p.email }}</td>
                 <td>{{ p.city }}</td>
             </tr>
