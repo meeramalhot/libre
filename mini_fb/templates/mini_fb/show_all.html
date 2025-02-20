@@ -1,4 +1,7 @@
-<!-- templates/show_all.html -->
+<!-- author: meera malhotra
+    date: 2/20
+    description: showing all profiles on page
+    mini_fb/templates/mini_fb/show_all.html -->
 
 {% extends 'mini_fb/base.html' %}
 <!-- scriptlet code to display the value of the variable `profiles` 
@@ -14,9 +17,12 @@
             <th>Email</th>
             <th>City</th>
         </tr>
+        <!-- using a loop for all profiles to display in a table -->
             {% for p in profiles %}
             <tr>
                 <td>
+                            <!-- link to profile -->
+
                     <a href="{% url 'show_profile' p.pk %}">
                     <img src="{{ p.image_url }}" alt="{{ p.image_url }}"  style="width:75px; height:90px;">
                      </a>

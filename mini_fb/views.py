@@ -1,3 +1,10 @@
+'''
+author: meera malhotra
+date: 2/20
+filename: views.py
+description: displaying different amounts of profiles for html
+'''
+
 from django.shortcuts import render
 from .models import Profile
 from django.views.generic import ListView, DetailView

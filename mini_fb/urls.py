@@ -1,3 +1,10 @@
+'''
+author: meera malhotra
+date: 2/20
+filename: urls.py
+description: url paths for mini_fb
+'''
+
 from django.urls import path
 from .views import ShowAllProfilesView, ShowProfilePageView
 

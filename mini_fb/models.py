@@ -1,3 +1,10 @@
+'''
+author: meera malhotra
+date: 2/20
+filename: models.py
+description: profile models for db
+'''
+
 from django.db import models
 
 class Profile(models.Model):

@@ -1,3 +1,8 @@
+<!-- author: meera malhotra
+    date: 2/20
+    description: show a single profile
+    mini_fb/templates/mini_fb/show_profile.html -->
+
 {% extends "mini_fb/base.html" %}
 
 {% block content %}
@@ -12,6 +17,9 @@
       <th>Email</th>
       <th>City</th>
     </tr>
+      
+    <!-- show a single profile in table form -->
+
     <tr>
       <td>
         <img src="{{ profiles.image_url }}" alt="{{ profiles.image_url }}" style="width: 220px; height: 300px;">
