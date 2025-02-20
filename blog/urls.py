@@ -1,4 +1,3 @@
-
 from django.urls import path
 from .views import ShowAllView, ArticleView, RandomArticleView
 

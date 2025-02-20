@@ -4,7 +4,8 @@
 <!-- scriptlet code to display the value of the variable `profiles` 
 -->
 {% block content %}
-    <h1>Showing all Profiles</h1>
+<div>
+    <h2>Profiles</h2>
     
     <table>
         <tr>
@@ -17,7 +18,7 @@
             <tr>
                 <td>
                     <a href="{% url 'show_profile' p.pk %}">
-                    <img src="{{ p.image_url }}" alt="{{ p.image_url }}"  style="max-width:100px;max-height:100px;">
+                    <img src="{{ p.image_url }}" alt="{{ p.image_url }}"  style="width:90px; height:90px;">
                      </a>
                 </td>
                 <td> <a href="{% url 'show_profile' p.pk %}">
@@ -31,4 +32,5 @@
             </tr>
             {% endfor %}
     </table>
+</div>
 {% endblock %}

@@ -1,37 +1,38 @@
-body {
+* {
+  font-family: "Lucida Console", "Courier New", monospace;
   background-color: rgb(222, 255, 244);
 }
 
-ul {
+nav {
+  margin-left: auto;
+  background-color: aliceblue;
+
+}
+
+nav ul {
   list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  background-color: rgb(222, 255, 244);;
+  display: flex;
+  padding-bottom: 1vh;
 }
 
-li {
-  float: left;
-}
-
-li a {
-  display: block;
-  color: rgb(0, 0, 0);
+td {
+  border: 1px solid #00a6ff;
+  border-bottom: 1px solid #00a6ff;
+  padding: 3px 3px;
   text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
 }
 
 h1 {
-  background-color: rgb(222, 255, 244);
+  padding: 2vh;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 3vh;
 }
 
 div {
   max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
-}
-
-* {
-  font-family: "Lucida Console", "Courier New", monospace;
 }

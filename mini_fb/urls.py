@@ -1,5 +1,5 @@
 from django.urls import path
-from mini_fb.views import ShowAllProfilesView, ShowProfilePageView
+from .views import ShowAllProfilesView, ShowProfilePageView
 
 urlpatterns = [
   path('', ShowAllProfilesView.as_view(), name="show_all_profiles"),
