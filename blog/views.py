@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from .models import Article
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 import random
+from .forms import CreateArticleForm ## new
+
 
 class ShowAllView(ListView):
     '''Create a subclass of ListView to display all blog articles.'''
@@ -30,3 +32,14 @@ class RandomArticleView(DetailView):
 
         all_articles = Article.objects.all()
         return random.choice(all_articles)
+    
+
+# define a subclass of CreateView to handle creation of Article objects
+class CreateArticleView(CreateView):
+    '''A view to handle creation of a new Article.
+    (1) display the HTML form to user (GET)
+    (2) process the form submission and store the new Article object (POST)
+    '''
+
+    form_class = CreateArticleForm
+    template_name = "blog/create_article_form.html"

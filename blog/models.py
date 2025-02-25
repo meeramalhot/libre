@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Article(models.Model):
@@ -14,3 +15,8 @@ class Article(models.Model):
     def __str__(self):
         '''Return a string representation of this Article object.'''
         return f'{self.title} by {self.author}'
+    
+    def get_absolute_url(self):
+        '''Return the URL to display one instance of this model.'''
+        return reverse('article', kwargs={'pk':self.pk})
+    
