@@ -15,6 +15,9 @@ nav ul {
   padding-bottom: 1vh;
 }
 
+nav ul li {
+  padding: 5px;
+}
 td {
   border: 1px solid #00a6ff;
   border-bottom: 1px solid #00a6ff;

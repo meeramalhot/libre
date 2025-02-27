@@ -1,10 +1,15 @@
-{% extends 'mini_fb/base.html' %}
+<!-- author: meera malhotra
+    date: 2/27
+    description: form to create status
+    mini_fb/templates/mini_fb/create_status_form.html -->
 
+{% extends 'mini_fb/base.html' %}
 
 {% block content %}
 
 <h1> Write a status update</h1>
 
+<!-- form to write status and generate profile afterwards -->
 <form action="{% url 'create_status' profile.pk %}" method="POST">
     {% csrf_token %}
     <table>
