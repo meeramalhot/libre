@@ -25,9 +25,14 @@ class Profile(models.Model):
         return f'{self.first_name} {self.last_name}'
     
     def get_status_messages(self):
-        '''Return a QuerySet of comments about this article.'''
+        '''Return a QuerySet of statuses related to profile.'''
         statuses = StatusMessage.objects.filter(profile=self)
         return statuses
+    
+    def get_absolute_url(self):
+        '''when submitting show profile form return to new profile aof person'''
+        return reverse('show_profile', kwargs={'pk': self.pk})
+
     
 
 class StatusMessage(models.Model):
