@@ -6,8 +6,9 @@ description: displaying different amounts of profiles for html
 '''
 
 from django.shortcuts import render
-from .models import Profile
-from django.views.generic import ListView, DetailView
+from .models import Profile, StatusMessage
+from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse
 
 class ShowAllProfilesView(ListView):
     '''Create a subclass of ListView to display all blog profiles.'''

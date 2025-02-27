@@ -8,7 +8,7 @@
 {% block content %}
 
 <div>
-  <h2>Profile Info</h2>
+<h2>Profile Info</h2>
 
 <table> 
     <tr>
@@ -29,6 +29,13 @@
       <td>{{ profiles.city }}</td>
     </tr>
 </table>
+
+<h2>Status Messages</h2>
+{% for status in profiles.get_status_messages %}
+    <p>Posted @ {{ status.timestamp }}</p> <br>
+    <p>{{ status.message }}</p>
+{% endfor %}
+
 </div>
 {% endblock %}
 
