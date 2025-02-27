@@ -31,6 +31,11 @@
 </table>
 
 <h2>Status Messages</h2>
+
+<h3>
+  <a href="{% url 'create_status' profiles.pk %}">Create a Status</a>
+</h3>
+
 {% for status in profiles.get_status_messages %}
     <p>Posted @ {{ status.timestamp }}</p> <br>
     <p>{{ status.message }}</p>

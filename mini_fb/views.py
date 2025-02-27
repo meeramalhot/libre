@@ -8,7 +8,7 @@ description: displaying different amounts of profiles for html
 from django.shortcuts import render
 from .models import Profile, StatusMessage
 from django.views.generic import ListView, DetailView, CreateView
-from .forms import CreateProfileForm
+from .forms import CreateProfileForm, CreateStatusMessageForm
 from django.urls import reverse
 
 class ShowAllProfilesView(ListView):
@@ -36,3 +36,48 @@ class CreateArticleView(CreateView):
 
     form_class = CreateProfileForm
     template_name = 'mini_fb/create_profile_form.html'
+
+class CreateStatusMessageView(CreateView):
+    '''A view to handle creation of a new Comment on an Article.'''
+
+    form_class = CreateStatusMessageForm
+    template_name = "mini_fb/create_status_form.html"
+
+    def get_success_url(self):
+        '''Provide a URL to redirect to after creating a new Comment.'''
+        # return reverse('show_all')
+        #retrieve the PK from the URL pattern
+        pk = self.kwargs['pk']
+        #call reverse to generate the URL for this Article
+        return reverse('show_profile', kwargs={'pk':pk})
+    
+    def get_context_data(self):
+        '''Return the dictionary of context variables for use in the template'''
+
+        #calling the superclass method
+        context = super().get_context_data()
+
+        # find/add the profile to the context data
+        # retrieve the PK from the URL pattern
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+
+        # add this profile into the context dictionary:
+        context ['profile'] = profile
+        return context 
+    
+
+    def form_valid(self, form):
+        '''This method handles the form submission and saves the new object to the Django database.
+        We need to add the foreign key (of the Article) to the Comment object before saving it to the database
+        '''
+
+        print(form.cleaned_data)
+        #retrieve the PK from the URL pattern
+        pk = self.kwargs['pk']
+        profile = Profile.objects.get(pk=pk)
+        # attach this article to the comment
+        form.instance.profile = profile # set the FK
+
+        # delegate the work to the superclass method form_valid:
+        return super().form_valid(form)
