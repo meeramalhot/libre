@@ -8,6 +8,7 @@ description: displaying different amounts of profiles for html
 from django.shortcuts import render
 from .models import Profile, StatusMessage
 from django.views.generic import ListView, DetailView, CreateView
+from .forms import CreateProfileForm
 from django.urls import reverse
 
 class ShowAllProfilesView(ListView):
@@ -25,3 +26,13 @@ class ShowProfilePageView(DetailView):
     model = Profile
     template_name = 'mini_fb/show_profile.html'
     context_object_name = 'profiles'
+
+
+class CreateArticleView(CreateView):
+    '''A view to handle creation of a new profile.
+    (1) display the HTML form to user (GET)
+    (2) process the form submission and store the new Article object (POST)
+    '''
+
+    form_class = CreateProfileForm
+    template_name = 'mini_fb/create_profile_form.html'
