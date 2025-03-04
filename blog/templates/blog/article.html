@@ -1,28 +1,34 @@
+<!-- blog/article.html 
+    display a single article on this web page
+-->
 {% extends 'blog/base.html' %}
-<h1> {{article.title}} </h1>
 
 {% block content %}
-
-<!-- this displays the QuerySet of all articles -->
-<!-- {{articles}} -->
+<h1>{{article.title}}</h1>
 
 <main class="grid-container">
-    <article> 
+    <article class="featured">
+        <!-- <img src="{{article.image_url}}" alt=""> -->
         {% if article.image_file %}
-       <img src = '{{article.image_file.url}}' alt = '{{article.image_file.url}}' > 
-       {% else %}
-       <h3>No image</h3>
-       {% endif %}
+        <img src="{{article.image_file.url}}" alt="">
+        {% else %}
+        <h3>No image</h3>
+        {% endif %}
         <div>
             <h2>{{article.title}}</h2>
-            <h3> by {{article.author}} at {{article.published}}</h3>
+            <h3>by {{article.author}} at {{article.published}}</h3>
             <p>
                 {{article.text}}
             </p>
+            <!-- update this article -->
+            <h3>
+            <a href="{% url 'update_article' article.pk %}">Update this article</a>
+	        </h3>
         </div>
 
     </article>
-    <div> 
+    
+    <div>
         <h2>Comments</h2>
         <h3>
             <a href="{% url 'create_comment' article.pk %}">Create a comment</a>
@@ -31,14 +37,13 @@
         <!-- {{article.get_all_comments}} -->
         {% for comment in article.get_all_comments %}
             <div>
-                <strong> by {{comment.author}} at {{comment.published}}</strong>
+                <strong>by {{comment.author}} at {{comment.published}}</strong>
                 <p>
                     {{comment.text}}
                 </p>
             </div>
         {% endfor %}
     </div>
-    <hr>
-</main>
 
+</main>
 {% endblock %}

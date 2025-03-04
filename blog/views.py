@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Article
-from .forms import CreateArticleForm, CreateCommentForm
+from .forms import CreateArticleForm, CreateCommentForm, UpdateArticleForm
 from django.urls import reverse
 import random
 # Create your views here.
@@ -103,4 +103,19 @@ class CreateCommentView(CreateView):
         form.instance.article = article # set the FK
 
         # delegate the work to the superclass method form_valid:
+        return super().form_valid(form)
+
+class UpdateArticleView(UpdateView):
+    '''A view to update an Article and save it to the database.'''
+
+    model = Article
+    form_class = UpdateArticleForm
+    template_name = "blog/update_article_form.html"
+    
+    def form_valid(self, form):
+        '''
+        Handle the form submission to create a new Article object.
+        '''
+        print(f'UpdateArticleView: form.cleaned_data={form.cleaned_data}')
+
         return super().form_valid(form)

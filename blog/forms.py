@@ -18,3 +18,11 @@ class CreateCommentForm(forms.ModelForm):
         # fields = ['article', 'author', 'text']
         fields = ['author', 'text'] # we don't want the drop-down list
 
+class UpdateArticleForm(forms.ModelForm):
+    '''A form to update a quote to the database.'''
+
+    class Meta:
+        '''associate this form with the Article model.'''
+        model = Article
+        fields = ['title', 'text', ]  # which fields from model should we use
+
