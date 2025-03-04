@@ -12,7 +12,9 @@ class Article(models.Model):
     author = models.TextField(blank=True)
     text = models.TextField(blank=True)
     published = models.DateTimeField(auto_now = True) #will set the published time automatically to the published time
-    image_url = models.URLField(blank=True)
+    #image_url = models.URLField(blank=True)
+    image_file = models.ImageField(blank=True) # an actual image
+
     
 
     def __str__(self): 

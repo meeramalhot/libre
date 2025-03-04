@@ -7,7 +7,7 @@ class CreateProfileForm(forms.ModelForm):
     class Meta:
         '''associate this form with a model from our database'''
         model = Profile
-        fields = ['first_name', 'last_name', 'city', 'email', 'image_url']
+        fields = ['first_name', 'last_name', 'city', 'email', 'image_file']
 
 class CreateStatusMessageForm(forms.ModelForm):
     '''A status message to add a Profile to the database'''

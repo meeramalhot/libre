@@ -17,7 +17,9 @@ class Profile(models.Model):
     last_name = models.TextField(blank=False)
     city = models.TextField(blank=False)
     email = models.TextField(blank=False)
-    image_url = models.URLField(blank=True) ## new
+    #image_url = models.URLField(blank=True) ## new
+    image_file = models.ImageField(blank=True) # an actual image
+
 
     
     def __str__(self):
