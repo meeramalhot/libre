@@ -44,5 +44,3 @@ class StatusMessage(models.Model):
     def __str__(self):
         '''Return a string representation of this status message'''
         return f'{self.message}'
-
-

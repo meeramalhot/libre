@@ -15,8 +15,6 @@ class Article(models.Model):
     #image_url = models.URLField(blank=True)
     image_file = models.ImageField(blank=True) # an actual image
 
-    
-
     def __str__(self): 
         '''return a string representation of this model instance'''
         return f'{self.title} by {self.author}'
