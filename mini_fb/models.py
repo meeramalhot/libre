@@ -20,8 +20,6 @@ class Profile(models.Model):
     #image_url = models.URLField(blank=True) ## new
     image_file = models.ImageField(blank=True) # an actual image
 
-
-    
     def __str__(self):
         '''Return a string representation of this Article object.'''
         return f'{self.first_name} {self.last_name}'

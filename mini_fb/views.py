@@ -81,3 +81,4 @@ class CreateStatusMessageView(CreateView):
 
         # delegate the work to the superclass method form_valid:
         return super().form_valid(form)
+    
