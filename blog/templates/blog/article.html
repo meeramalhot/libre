@@ -41,6 +41,7 @@
                 <p>
                     {{comment.text}}
                 </p>
+                <a href="{% url 'delete_comment' comment.pk %}">Delete</a> <!-- NEW -->
             </div>
         {% endfor %}
     </div>
