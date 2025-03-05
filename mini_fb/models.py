@@ -39,10 +39,13 @@ class StatusMessage(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     message = models.TextField(blank=False)
 
-
     def __str__(self):
         '''Return a string representation of this status message'''
         return f'{self.message}'
+    
+    def get_images(self):
+        '''return all images associated with status message'''
+        return Image.objects.filter(StatusMessage=self)
 
 class Image(models.Model):
     image_file = models.ImageField(blank=True) # an actual image
