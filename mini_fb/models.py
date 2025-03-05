@@ -45,8 +45,8 @@ class StatusMessage(models.Model):
         return f'{self.message}'
 
 class Image(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     image_file = models.ImageField(blank=True) # an actual image
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     caption = models.TextField(blank=True)
     timestamp = models.DateTimeField(auto_now=True)
 
