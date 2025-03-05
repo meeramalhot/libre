@@ -24,7 +24,7 @@
                             <!-- link to profile -->
 
                     <a href="{% url 'show_profile' p.pk %}">
-                    <img src="{{ p.image_file }}" alt="{{ p.image_file }}"  style="width:75px; height:90px;">
+                    <img src="{{ p.image_url }}" alt="{{ p.image_url }}"  style="width:75px; height:90px;">
                      </a>
                 </td>
                 <td> <a href="{% url 'show_profile' p.pk %}">

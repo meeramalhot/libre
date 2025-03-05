@@ -13,12 +13,11 @@ class Profile(models.Model):
     '''Encapsulate profile info for a person.'''
 
     # data attributes of a Article:
-    first_name = models.TextField(blank=False)
-    last_name = models.TextField(blank=False)
-    city = models.TextField(blank=False)
-    email = models.TextField(blank=False)
-    #image_url = models.URLField(blank=True) ## new
-    image_file = models.ImageField(blank=True) # an actual image
+    first_name = models.TextField(blank=True)
+    last_name = models.TextField(blank=True)
+    city = models.TextField(blank=True)
+    email = models.TextField(blank=True)
+    image_url = models.URLField(blank=True)
 
     def __str__(self):
         '''Return a string representation of this Article object.'''
@@ -44,3 +43,25 @@ class StatusMessage(models.Model):
     def __str__(self):
         '''Return a string representation of this status message'''
         return f'{self.message}'
+
+class Image(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    image_file = models.ImageField(blank=True) # an actual image
+    caption = models.TextField(blank=True)
+    timestamp = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        '''Return a string representation of this image object.'''
+        return f'{self.caption}'
+    
+
+class StatusImage(models.Model):
+    status_message = models.ForeignKey(StatusMessage, on_delete=models.CASCADE)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+
+    def __str__(self):
+        '''Return a string representation of this status image object.'''
+        return "status_image"
+
+
