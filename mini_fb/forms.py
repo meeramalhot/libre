@@ -17,14 +17,16 @@ class CreateStatusMessageForm(forms.ModelForm):
            fields = ['message']
 
 class UpdateProfileForm(forms.ModelForm):
-    '''A form to update a Profile's details, excluding the first and last name.'''
+    '''A form to update a Profile's details not including the first and last name.'''
 
     class Meta:
         model = Profile
         fields = ['city', 'email', 'image_url']
 
 class UpdateStatusForm(forms.ModelForm):
-     class Meta:
+    '''A form to update status details, excluding the first and last name.'''
+
+    class Meta:
         model = StatusMessage
         fields = ['message']
 

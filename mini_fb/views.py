@@ -102,6 +102,7 @@ class CreateStatusMessageView(CreateView):
         return super().form_valid(form)
 
 class UpdateProfileView(UpdateView):
+    '''Allows u to update profile'''
     model = Profile
     form_class = UpdateProfileForm
     template_name = "mini_fb/update_profile_form.html"
@@ -117,6 +118,7 @@ class UpdateProfileView(UpdateView):
     
 
 class DeleteStatusMessageView(DeleteView):
+    '''Allows u to delete a status message'''
 
     template_name = "mini_fb/delete_status_form.html"
     model = StatusMessage
@@ -137,6 +139,7 @@ class DeleteStatusMessageView(DeleteView):
     
 
 class UpdateStatusMessageView(UpdateView):
+    '''Allows u to update a status message'''
 
     template_name = "mini_fb/update_status_form.html"
     form_class= UpdateStatusForm
@@ -144,7 +147,7 @@ class UpdateStatusMessageView(UpdateView):
     context_object_name = 'status_message'
 
     def get_success_url(self):
-        '''Return a the URL to which we should be directed after the delete.'''
+        '''Return a the URL to which we should be directed after the update.'''
 
         # get the pk for this sm
         pk = self.kwargs.get('pk')
