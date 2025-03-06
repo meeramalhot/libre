@@ -45,7 +45,11 @@ class StatusMessage(models.Model):
     
     def get_images(self):
         '''return all images associated with status message'''
-        return Image.objects.filter(StatusMessage=self)
+        images = Image.objects.filter(statusimage__status_message=self)
+
+        print(images)
+        return images
+
 
 class Image(models.Model):
     image_file = models.ImageField(blank=True) # an actual image
@@ -65,6 +69,7 @@ class StatusImage(models.Model):
 
     def __str__(self):
         '''Return a string representation of this status image object.'''
-        return "status_image"
+        return f'{self.status_message}'
+
 
 

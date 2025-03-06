@@ -45,16 +45,15 @@
 {% for status in profiles.get_status_messages %}
     <p>Posted @ {{ status.timestamp }}</p> <br>
     <p>{{ status.message }}</p>
-{% endfor %}
 
-{% if status_message.get_images %}
-    <h3>status images</h3>
-    {% for image in status_message.get_images %}
-        <img src="{{ image.image_file.url }}" alt="Status Image">
-    {% endfor %}
-{% else %}
-    <h3>No image</h3>
-{% endif %}
+      <h3>status images</h3>
+
+      {% for img in status.get_images %}
+      <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}' style="width:200px;height:220px;">
+      {% endfor %}
+      {% endfor %}
+
+
 
 </div>
 {% endblock %}
