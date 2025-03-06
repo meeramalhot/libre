@@ -50,10 +50,12 @@
     <p>Posted @ {{ status.timestamp }}</p> <br>
     <p>{{ status.message }}</p>
 
+    <a href="{% url 'update' status.pk %}">Update this status</a>
+    <a href="{% url 'delete' status.pk %}">Delete this status</a>
+
       {% for img in status.get_images %}
       <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}' style="width:200px;height:220px;">
 
-      <a href="{% url 'delete' status.pk %}">Delete this status</a>
 
       {% endfor %}
 {% endfor %}

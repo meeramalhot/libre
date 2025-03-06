@@ -8,7 +8,7 @@ description: displaying different amounts of profiles for html
 from django.shortcuts import render
 from .models import Profile, StatusMessage, Image, StatusImage
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
+from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusForm
 from django.urls import reverse
 
 class ShowAllProfilesView(ListView):
@@ -125,7 +125,28 @@ class DeleteStatusMessageView(DeleteView):
     def get_success_url(self):
         '''Return a the URL to which we should be directed after the delete.'''
 
-        # get the pk for this comment
+        # get the pk for this sm
+        pk = self.kwargs.get('pk')
+        sm = StatusMessage.objects.get(pk=pk)
+        
+        # find the Status Message to which this Profile is related by FK
+        profile = sm.profile
+        
+        # reverse to show the article page
+        return reverse('show_profile', kwargs={'pk':profile.pk})
+    
+
+class UpdateStatusMessageView(UpdateView):
+
+    template_name = "mini_fb/update_status_form.html"
+    form_class= UpdateStatusForm
+    model = StatusMessage
+    context_object_name = 'status_message'
+
+    def get_success_url(self):
+        '''Return a the URL to which we should be directed after the delete.'''
+
+        # get the pk for this sm
         pk = self.kwargs.get('pk')
         sm = StatusMessage.objects.get(pk=pk)
         
