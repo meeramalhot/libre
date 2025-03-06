@@ -53,8 +53,7 @@
       {% for img in status.get_images %}
       <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}' style="width:200px;height:220px;">
 
-      <h3>Delete</h3>
-      {% url 'delete_status' st_msg.pk %}
+      <a href="{% url 'delete' status.pk %}">Delete this status</a>
 
       {% endfor %}
 {% endfor %}
