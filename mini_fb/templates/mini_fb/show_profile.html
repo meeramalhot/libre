@@ -46,8 +46,6 @@
     <p>Posted @ {{ status.timestamp }}</p> <br>
     <p>{{ status.message }}</p>
 
-      <h3>status images</h3>
-
       {% for img in status.get_images %}
       <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}' style="width:200px;height:220px;">
       {% endfor %}

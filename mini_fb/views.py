@@ -6,7 +6,7 @@ description: displaying different amounts of profiles for html
 '''
 
 from django.shortcuts import render
-from .models import Profile, StatusMessage
+from .models import Profile, StatusMessage, Image, StatusImage
 from django.views.generic import ListView, DetailView, CreateView
 from .forms import CreateProfileForm, CreateStatusMessageForm
 from django.urls import reverse
@@ -26,8 +26,6 @@ class ShowProfilePageView(DetailView):
     model = Profile
     template_name = 'mini_fb/show_profile.html'
     context_object_name = 'profiles'
-    
-
 
 
 class CreateArticleView(CreateView):
@@ -80,6 +78,25 @@ class CreateStatusMessageView(CreateView):
         profile = Profile.objects.get(pk=pk)
         # attach this article to the comment
         form.instance.profile = profile # set the FK
+
+        # save the status message to database
+        sm = form.save()
+
+        # read the file from the form:
+        files = self.request.FILES.getlist('files')
+
+        for file in files:
+            #Create an Image object, and set the file into the Image‘s ImageField attribute
+            #call the Image‘s .save() method to save the Image object to the database
+            new_image = Image(profile=profile, image_file=file)
+            new_image.save()
+
+            # Create and save a StatusImage object that sets the foreign keys of the StatusMessage and the Image objects
+            #then call the StatusImage object’s .save() method to save the Image object to the database.
+
+            new_status = StatusImage(status_message=sm, image=new_image)
+            new_status.save()
+
 
         # delegate the work to the superclass method form_valid:
         return super().form_valid(form)
