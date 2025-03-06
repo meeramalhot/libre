@@ -7,8 +7,8 @@ description: displaying different amounts of profiles for html
 
 from django.shortcuts import render
 from .models import Profile, StatusMessage, Image, StatusImage
-from django.views.generic import ListView, DetailView, CreateView
-from .forms import CreateProfileForm, CreateStatusMessageForm
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
 from django.urls import reverse
 
 class ShowAllProfilesView(ListView):
@@ -100,4 +100,17 @@ class CreateStatusMessageView(CreateView):
 
         # delegate the work to the superclass method form_valid:
         return super().form_valid(form)
-    
+
+class UpdateProfileView(UpdateView):
+    model = Profile
+    form_class = UpdateProfileForm
+    template_name = "mini_fb/update_profile_form.html"
+
+    def get_success_url(self):
+        '''Return the URL to redirect to after updating the profile.'''
+        # get the pk for this profile
+        pk = self.kwargs.get('pk')
+        profile = Profile.objects.get(pk=pk)
+        
+        # reverse to show the profile detail page
+        return reverse('show_profile', kwargs={'pk': profile.pk})
