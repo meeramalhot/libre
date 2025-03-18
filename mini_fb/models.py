@@ -71,5 +71,11 @@ class StatusImage(models.Model):
         '''Return a string representation of this status image object.'''
         return f'{self.status_message}'
 
+class Friend(models.Model):
+    timestamp = models.DateTimeField(auto_now=True)
+    profile1 = models.ForeignKey(Profile, related_name="profile1", on_delete=models.CASCADE)
+    profile2 = models.ForeignKey(Profile, related_name="profile2", on_delete=models.CASCADE)
 
-
+    def __str__(self):
+        '''Return a string representation of friend object.'''
+        return f'{self.profile1} & {self.profile2}'
