@@ -76,14 +76,18 @@ class Profile(models.Model):
 
 
     def get_friend_suggestions(self):
-       no_self = Friend.objects.exclude(pk=self.pk)
-       friend_one = Friend.objects.filter(profile1=self)
-       friend_two = Friend.objects.filter(profile2=self)
-       cant_friend = friend_one or friend_two or no_self
+        suggestions = []
+        current_friends = self.get_friends()
 
-       suggestions = Profile.objects.all().exclude(cant_friend) 
+        for candidate in Profile.objects.all():
+            if candidate == self:
+                continue
+            if candidate in current_friends:
+                continue
+            suggestions.append(candidate)
 
-       return suggestions[:3]
+        return suggestions
+
 
 
 class StatusMessage(models.Model):

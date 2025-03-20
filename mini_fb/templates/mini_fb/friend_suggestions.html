@@ -6,9 +6,9 @@
   {% if profile.get_friend_suggestions %}
       {% for suggestion in profile.get_friend_suggestions %}
           <a href="{% url 'show_profile' suggestion.pk %}">
-            {{ suggestion.first_name }} {{ suggestion.last_name }}
-          </a>
-          <a href="{% url 'add_friend' profile.pk suggestion.pk %}">Add Friend</a>
+            {{ suggestion.first_name }} {{ suggestion.last_name }} -
+          </a> 
+          <a href="{% url 'add_friend' profile.pk suggestion.pk %}">Add Friend</a> <br>
   
       {% endfor %}
   {% else %}
