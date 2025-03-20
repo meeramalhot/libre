@@ -5,9 +5,9 @@ filename: views.py
 description: displaying different amounts of profiles for html
 '''
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Profile, StatusMessage, Image, StatusImage, Friend
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusForm
 from django.urls import reverse
 
@@ -158,3 +158,22 @@ class UpdateStatusMessageView(UpdateView):
         
         # reverse to show the article page
         return reverse('show_profile', kwargs={'pk':profile.pk})
+    
+
+class AddFriendView(View):
+    def dispatch(self, request, *args, **kwargs):
+        profile_pk = self.kwargs['pk']
+        other_pk = self.kwargs['other_pk']
+
+        friend_one = Profile.objects.get(pk=profile_pk)
+        friend_two = Profile.objects.get(pk=other_pk)
+
+        friend_one.add_friend(friend_two)
+        
+        return redirect('show_profile', pk=friend_one.pk)
+
+    
+class ShowFriendSuggestionsView(DetailView):
+    model = Profile
+    template_name = "mini_fb/friend_suggestions.html"
+    context_object_name = "profile"

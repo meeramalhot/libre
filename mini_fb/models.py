@@ -33,12 +33,14 @@ class Profile(models.Model):
         return reverse('show_profile', kwargs={'pk': self.pk})
     
     def get_friends(self):
+        '''function to get friends associated w a profile'''
+
         group1 = Friend.objects.filter(profile1 = self)
         group2 = Friend.objects.filter(profile2 = self)
-        print(group1)
+        #print(group1)
 
         friend_group = group1 | group2
-        print(friend_group)
+        #print(friend_group)
         friend_array = []
         for friend in friend_group:
             #self will be container in first or second profile
@@ -49,10 +51,40 @@ class Profile(models.Model):
                 #friend will be contained in second
                 friend_array.append(friend.profile2)
         
-        print(friend_array)
+        #print(friend_array)
 
         return friend_array
     
+    def add_friend(self, other):
+        '''function to add friends'''
+
+        if self == other:
+             return "cannot friend self"
+        
+        # false if empty
+        friendship = Friend.objects.filter(profile1=self, profile2=other)
+        #check if already friends
+        if not friendship:
+            friendship = Friend.objects.filter(profile1=other, profile2=self)
+            print("already friends, cannot friend")
+
+       
+        if not friendship:
+            add_friend = Friend(profile1=self, profile2=other)
+            add_friend.save()
+            print("friend added!")
+
+
+    def get_friend_suggestions(self):
+       no_self = Friend.objects.exclude(pk=self.pk)
+       friend_one = Friend.objects.filter(profile1=self)
+       friend_two = Friend.objects.filter(profile2=self)
+       cant_friend = friend_one or friend_two or no_self
+
+       suggestions = Profile.objects.all().exclude(cant_friend) 
+
+       return suggestions[:3]
+
 
 class StatusMessage(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)

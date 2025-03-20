@@ -7,7 +7,7 @@
 
 {% block content %}
 
-<div>
+<br>
 <h2>Profile Info</h2>
 
 <table> 
@@ -62,15 +62,19 @@
 <h3>{{ profiles.first_name }}'s Friends</h3>
 
 {% for friend in profiles.get_friends %}
+    <a href="{% url 'show_profile' friend.pk %}">{{ friend.first_name }} {{ friend.last_name }}</a>
+
     <a href="{% url 'show_profile' friend.pk %}">
-    {{ friend.first_name }} {{ friend.last_name }}
-    </a>
-    
-    <a href="{% url 'show_profile' friend.pk %}">
-    <img src="{{ friend.image_url }}" style="width:200px;height:220px;">
+    <img src="{{ friend.image_url }}" style="width:150px;height:200px;">
     </a>
 
 {% endfor %}
+
+<br></br>
+
+<h3>
+  <a href="{% url 'friend_suggestions' profiles.pk %}">Show Friend Suggestions</a>
+</h3>
 
 {% endblock %}
 
