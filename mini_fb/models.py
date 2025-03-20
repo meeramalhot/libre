@@ -68,7 +68,7 @@ class Profile(models.Model):
             friendship = Friend.objects.filter(profile1=other, profile2=self)
             print("already friends, cannot friend")
 
-       
+       #if not alread a friend add as friend
         if not friendship:
             add_friend = Friend(profile1=self, profile2=other)
             add_friend.save()
@@ -76,17 +76,32 @@ class Profile(models.Model):
 
 
     def get_friend_suggestions(self):
+        '''function to get generate a list of possible new friends who are not you, or already your friend'''
+
         suggestions = []
         current_friends = self.get_friends()
 
-        for candidate in Profile.objects.all():
-            if candidate == self:
+        #add to possible friends if not already friends, or not se
+        for possible in Profile.objects.all():
+            if possible == self:
                 continue
-            if candidate in current_friends:
+            elif possible in current_friends:
                 continue
-            suggestions.append(candidate)
+            else:
+                suggestions.append(possible)
 
         return suggestions
+    
+    def get_news_feed(self):
+        '''function to see all your friends status messages '''
+
+        profiles_to_show = self.get_friends()
+
+        # order status mesages by time stamp
+        news_feed = StatusMessage.objects.filter(profile__in=profiles_to_show).order_by('-timestamp')
+
+        return list(news_feed)
+
 
 
 

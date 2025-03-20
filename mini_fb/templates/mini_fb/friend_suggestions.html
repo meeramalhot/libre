@@ -1,14 +1,24 @@
+<!-- author: meera malhotra
+    date: 3/20
+    description: show friend suggestions
+    mini_fb/templates/mini_fb/friend_suggestions.html -->
+
 {% extends 'mini_fb/base.html' %}
 
 {% block content %}
   <h2>People {{ profile.first_name }} {{ profile.last_name }} May Know...</h2>
 
+    <!-- loop to display friends suggestions for a profile-->
+
   {% if profile.get_friend_suggestions %}
       {% for suggestion in profile.get_friend_suggestions %}
-          <a href="{% url 'show_profile' suggestion.pk %}">
-            {{ suggestion.first_name }} {{ suggestion.last_name }} -
-          </a> 
-          <a href="{% url 'add_friend' profile.pk suggestion.pk %}">Add Friend</a> <br>
+
+      <img src="{{ suggestion.image_url }}" style="width:150px;height:200px;"><br>
+
+      <a href="{% url 'show_profile' suggestion.pk %}">
+            {{ suggestion.first_name }} {{ suggestion.last_name }}<br>
+          </a> <br>
+          <a href="{% url 'add_friend' profile.pk suggestion.pk %}"> Click here to add {{ suggestion.first_name }} as a friend</a> <br><br>
   
       {% endfor %}
   {% else %}
@@ -17,5 +27,5 @@
   
     {% endif %}
 
-  <p><a href="{% url 'show_profile' profile.pk %}">Return to your profile</a></p>
+  <p><a href="{% url 'show_profile' profile.pk %}">Return to profile</a></p>
 {% endblock %}

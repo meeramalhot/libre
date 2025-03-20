@@ -58,6 +58,7 @@
 
 {% endfor %}
 
+    <!-- loop to display friends for each person -->
 
 <h3>{{ profiles.first_name }}'s Friends</h3>
 
@@ -74,6 +75,10 @@
 
 <h3>
   <a href="{% url 'friend_suggestions' profiles.pk %}">Show Friend Suggestions</a>
+</h3>
+
+<h3>
+  <a href="{% url 'news_feed' profiles.pk %}">Show News Feed</a>
 </h3>
 
 {% endblock %}

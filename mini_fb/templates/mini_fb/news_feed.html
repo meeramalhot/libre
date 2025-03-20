@@ -1,0 +1,37 @@
+<!-- author: meera malhotra
+    date: 3/20
+    description: show friend status updates on a newsfeed
+    mini_fb/templates/mini_fb/news_feed.html -->
+
+{% extends 'mini_fb/base.html' %}
+
+{% block content %}
+  <h2>{{ profile.first_name }} {{ profile.last_name }}’s News Feed</h2>
+
+  <p><a href="{% url 'show_profile' profile.pk %}">Back to Profile</a></p>
+
+  {% if profile.get_news_feed %}
+
+   <!-- loop to display friends status messages with their icon -->
+
+  {% for status in profile.get_news_feed %}
+      <img src="{{ status.profile.image_url }}"  style="width:50px;height:50px;">
+
+
+
+      <a href="{% url 'show_profile' status.profile.pk %}">
+          {{ status.profile.first_name }} {{ status.profile.last_name }}
+        </a>
+
+
+      {{ status.message }}
+      <p>Posted @ {{ status.timestamp }}</p>
+
+    {% endfor %}
+
+    {% else %}
+     <p>No posts... yet!</p>
+{% endif %}
+
+
+{% endblock %}
