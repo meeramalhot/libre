@@ -6,7 +6,7 @@ description: displaying different amounts of profiles for html
 '''
 
 from django.shortcuts import render
-from .models import Profile, StatusMessage, Image, StatusImage
+from .models import Profile, StatusMessage, Image, StatusImage, Friend
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusForm
 from django.urls import reverse

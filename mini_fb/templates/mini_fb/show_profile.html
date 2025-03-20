@@ -45,7 +45,6 @@
 
     <!-- loop to display status message for each person -->
 
-
 {% for status in profiles.get_status_messages %}
     <p>Posted @ {{ status.timestamp }}</p> <br>
     <p>{{ status.message }}</p>
@@ -55,14 +54,23 @@
 
       {% for img in status.get_images %}
       <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}' style="width:200px;height:220px;">
-
-
       {% endfor %}
+
 {% endfor %}
 
 
+<h3>{{ profiles.first_name }}'s Friends</h3>
 
+{% for friend in profiles.get_friends %}
+    <a href="{% url 'show_profile' friend.pk %}">
+    {{ friend.first_name }} {{ friend.last_name }}
+    </a>
+    
+    <a href="{% url 'show_profile' friend.pk %}">
+    <img src="{{ friend.image_url }}" style="width:200px;height:220px;">
+    </a>
 
-</div>
+{% endfor %}
+
 {% endblock %}
 

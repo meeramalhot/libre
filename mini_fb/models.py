@@ -29,9 +29,29 @@ class Profile(models.Model):
         return statuses
     
     def get_absolute_url(self):
-        '''when submitting show profile form return to new profile aof person'''
+        '''when submitting show profile form return to new profile of person'''
         return reverse('show_profile', kwargs={'pk': self.pk})
+    
+    def get_friends(self):
+        group1 = Friend.objects.filter(profile1 = self)
+        group2 = Friend.objects.filter(profile2 = self)
+        print(group1)
 
+        friend_group = group1 | group2
+        print(friend_group)
+        friend_array = []
+        for friend in friend_group:
+            #self will be container in first or second profile
+            if friend.profile1 != self:
+                #if not self is not the first, append the first
+                friend_array.append(friend.profile1)
+            else:
+                #friend will be contained in second
+                friend_array.append(friend.profile2)
+        
+        print(friend_array)
+
+        return friend_array
     
 
 class StatusMessage(models.Model):
@@ -47,7 +67,6 @@ class StatusMessage(models.Model):
         '''return all images associated with status message'''
         images = Image.objects.filter(statusimage__status_message=self)
 
-        print(images)
         return images
 
 
@@ -79,3 +98,4 @@ class Friend(models.Model):
     def __str__(self):
         '''Return a string representation of friend object.'''
         return f'{self.profile1} & {self.profile2}'
+    
