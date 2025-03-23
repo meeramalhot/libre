@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+
 # Create your models here.
 #define data models here
 
@@ -14,6 +16,8 @@ class Article(models.Model):
     published = models.DateTimeField(auto_now = True) #will set the published time automatically to the published time
     #image_url = models.URLField(blank=True)
     image_file = models.ImageField(blank=True) # an actual image
+    user = models.ForeignKey(User, on_delete=models.CASCADE) ## NEW
+
 
     def __str__(self): 
         '''return a string representation of this model instance'''

@@ -1,26 +1,61 @@
+<!-- templates/blog/base.html -->
 {% load static %}
 
 <html>
     <head>
         <title>Our Blog</title>
-        <link rel="stylesheet" href ="{% static 'styles-blog.css' %}">
-
+        <link rel="stylesheet" href="{% static 'styles-blog.css' %}">
     </head>
 
     <body>
         <head>
-            <h1> Our Blog </h1>
+            <h1>Our Blog</h1>
             <nav>
                 <ul>
+					<!-- URLs for users who are not logged in -->
                     <li><a href="{% url 'random' %}">Random</a></li>
-                    <li><a href="{%url 'show_all' %}">Show All</a></li>
-                    <li><a href="{%url 'create_article' %}">Create</a></li>
+                    <li><a href="{% url 'show_all' %}">Show All</a></li>
 
+                    <!-- URLs for logged in users only -->
+                    {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'create_article' %}">Create</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+
+                    <!-- URLs for users who are not logged in -->
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
                 </ul>
+                <hr>
+                {% if request.user.is_authenticated %}
+                Logged in as: {{request.user}}
+                {% else %}
+                Not logged in.
+                {% endif %}
             </nav>
         </head>
 
+        <!-- substitute in the specific content here -->
         {% block content %}
+
+
+        <h1>Login to our Blog</h1>
+        <form action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="Login">
+            <!-- This basic login form works, but after login in
+            assumed the existance of a page at /registration/profile, which
+            does not exist.  -->
+            {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{request.GET.next}}">
+            {% else %}
+            <input type="hidden" name="next" value="{% url 'show_all' %}">
+            {% endif %}
+        </form>
         {% endblock %}
+
     </body>
+
 </html>
+

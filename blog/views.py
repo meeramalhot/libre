@@ -14,6 +14,16 @@ class ShowAllView(ListView):
     context_object_name = "articles" #naming convention -- whenever we are creating a list view we are going to show many objects, we want to use a plural name similar to the model name.
     #going to conatin very instances of the article
 
+    def dispatch(self, request, *args, **kwargs):
+        '''Override the dispatch method to add debugging information.'''
+
+        if request.user.is_authenticated:
+            print(f'ShowAllView.dispatch(): request.user={request.user}')
+        else:
+            print(f'ShowAllView.dispatch(): not logged in.')
+
+        return super().dispatch(request, *args, **kwargs)
+
 
 #detail view displays a single instance of one model
 
@@ -59,6 +69,26 @@ class CreateArticleView(CreateView):
 
 		# delegate work to the superclass version of this method
         return super().form_valid(form)
+    
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login') 
+    
+    def form_valid(self, form):
+        '''
+        Handle the form submission to create a new Article object.
+        '''
+        print(f'CreateArticleView: form.cleaned_data={form.cleaned_data}')
+
+        # find the logged in user
+        user = self.request.user
+        print(f"CreateArticleView user={user} article.user={user}")
+
+        # attach user to form instance (Article object):
+        form.instance.user = user
+
+        return super().form_valid(form)
+        
 
 class CreateCommentView(CreateView):
     '''A view to handle creation of a new Comment on an Article.'''
