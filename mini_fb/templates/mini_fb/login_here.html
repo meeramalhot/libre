@@ -1,5 +1,5 @@
-<!-- blog/templates/base.html -->
-{% extends 'blog/base.html' %}
+<!-- mini_fb/templates/base.html -->
+{% extends 'mini_fb/base.html' %}
 
 {% block content %}
 <!-- This basic authentication form works.
@@ -13,5 +13,15 @@
     <!-- This basic login form works, but after login in
      assumed the existance of a page at /registration/profile, which
      does not exist.  -->
-    <input type="hidden" name="next" value="{% url 'profile' %}">
+    {% if request.GET.next %}
+    <input type="hidden" name="next" value="{{request.GET.next}}">
+    {% else %}
+    <input type="hidden" name="next" value="{% url 'show_all_profiles' %}">
+    {% endif %}
+
+    <button type="submit">Login</button>
+
+</form>
+
+
 {% endblock %}

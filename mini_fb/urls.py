@@ -7,6 +7,11 @@ description: url paths for mini_fb
 
 from django.urls import path
 from .views import * #ShowAllProfilesView, ShowProfilePageView, CreateArticleView
+from django.contrib.auth import views as auth_views, logout    ## NEW
+
+def my_logout(request):
+    logout(request)
+    return redirect('login') 
 
 urlpatterns = [
   path('', ShowAllProfilesView.as_view(), name="show_all_profiles"),
@@ -20,5 +25,9 @@ urlpatterns = [
   path('profile/<int:pk>/add_friend/<int:other_pk>/', AddFriendView.as_view(), name='add_friend'),
   path('profile/<int:pk>/friend_suggestions/', ShowFriendSuggestionsView.as_view(), name='friend_suggestions'),
   path('profile/<int:pk>/news_feed/', ShowNewsFeedView.as_view(), name='news_feed'),
+  path('login/', auth_views.LoginView.as_view(template_name='mini_fb/login_here.html'), name='login'), ## NEW
+	#path('logout/', auth_views.LogoutView.as_view(template_name='mini_fb/logout_here.html'), name='logout'), ## NEW
+  path('logout/', my_logout, name='logout'),
+
 
 ]

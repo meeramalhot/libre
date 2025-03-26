@@ -30,18 +30,24 @@
     </tr>
 </table>
 
+{% if request.user.is_authenticated %}
 <h3>
   <a href="{% url 'update_profile' profiles.pk %}">Update Profile</a>
 </h3>
+
+{% endif %}
 
 <h3>Status Messages</h3>
 
     <!-- link to create status messages -->
 
+{% if request.user.is_authenticated %}
 
 <h3>
   <a href="{% url 'create_status' profiles.pk %}">Create a Status</a>
 </h3>
+
+{% endif %}
 
     <!-- loop to display status message for each person -->
 
@@ -49,8 +55,12 @@
     <p>Posted @ {{ status.timestamp }}</p> <br>
     <p>{{ status.message }}</p>
 
+    {% if request.user.is_authenticated %}
+
     <a href="{% url 'update' status.pk %}">Update this status</a>
     <a href="{% url 'delete' status.pk %}">Delete this status</a>
+    {% endif %}
+
 
       {% for img in status.get_images %}
       <img src='{{img.image_file.url}}' alt='{{img.image_file.url}}' style="width:200px;height:220px;">
@@ -73,6 +83,8 @@
 
 <br></br>
 
+{% if request.user.is_authenticated %}
+
 <h3>
   <a href="{% url 'friend_suggestions' profiles.pk %}">Show Friend Suggestions</a>
 </h3>
@@ -80,6 +92,8 @@
 <h3>
   <a href="{% url 'news_feed' profiles.pk %}">Show News Feed</a>
 </h3>
+{% endif %}
+
 
 {% endblock %}
 

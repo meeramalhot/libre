@@ -10,6 +10,8 @@ from .models import Profile, StatusMessage, Image, StatusImage, Friend
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusForm
 from django.urls import reverse
+from django.contrib.auth.mixins import LoginRequiredMixin ## NEW
+
 
 class ShowAllProfilesView(ListView):
     '''Create a subclass of ListView to display all blog profiles.'''
@@ -17,6 +19,16 @@ class ShowAllProfilesView(ListView):
     model = Profile # retrieve objects of type Article from the database
     template_name = 'mini_fb/show_all.html'
     context_object_name = 'profiles' # how to find the data in the template file
+
+    def dispatch(self, request, *args, **kwargs):
+        '''Override the dispatch method to add debugging information.'''
+
+        if request.user.is_authenticated:
+            print(f'ShowAllView.dispatch(): request.user={request.user}')
+        else:
+            print(f'ShowAllView.dispatch(): not logged in.')
+
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ShowProfilePageView(DetailView):
@@ -28,7 +40,7 @@ class ShowProfilePageView(DetailView):
     context_object_name = 'profiles'
 
 
-class CreateArticleView(CreateView):
+class CreateArticleView(LoginRequiredMixin, CreateView):
     '''A view to handle creation of a new profile.
     (1) display the HTML form to user (GET)
     (2) process the form submission and store the new Article object (POST)
@@ -37,7 +49,12 @@ class CreateArticleView(CreateView):
     form_class = CreateProfileForm
     template_name = 'mini_fb/create_profile_form.html'
 
-class CreateStatusMessageView(CreateView):
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
+
+
+class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     '''A view to handle creation of a new Comment on an Article.'''
 
     form_class = CreateStatusMessageForm
@@ -65,6 +82,10 @@ class CreateStatusMessageView(CreateView):
         # add this profile into the context dictionary:
         context ['profile'] = profile
         return context 
+    
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
     
 
     def form_valid(self, form):
@@ -101,7 +122,7 @@ class CreateStatusMessageView(CreateView):
         # delegate the work to the superclass method form_valid:
         return super().form_valid(form)
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
     '''Allows u to update profile'''
     model = Profile
     form_class = UpdateProfileForm
@@ -116,8 +137,12 @@ class UpdateProfileView(UpdateView):
         # reverse to show the profile detail page
         return reverse('show_profile', kwargs={'pk': profile.pk})
     
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
+    
 
-class DeleteStatusMessageView(DeleteView):
+class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     '''Allows u to delete a status message'''
 
     template_name = "mini_fb/delete_status_form.html"
@@ -137,8 +162,12 @@ class DeleteStatusMessageView(DeleteView):
         # reverse to show the article page
         return reverse('show_profile', kwargs={'pk':profile.pk})
     
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
+    
 
-class UpdateStatusMessageView(UpdateView):
+class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
     '''Allows u to update a status message'''
 
     template_name = "mini_fb/update_status_form.html"
@@ -159,6 +188,10 @@ class UpdateStatusMessageView(UpdateView):
         # reverse to show the article page
         return reverse('show_profile', kwargs={'pk':profile.pk})
     
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
+    
 
 class AddFriendView(View):
     def dispatch(self, request, *args, **kwargs):
@@ -171,6 +204,7 @@ class AddFriendView(View):
         friend_one.add_friend(friend_two)
         
         return redirect('show_profile', pk=friend_one.pk)
+    
 
     
 class ShowFriendSuggestionsView(DetailView):
