@@ -54,7 +54,7 @@ class CreateArticleView(LoginRequiredMixin, CreateView):
 
     def get_login_url(self) -> str:
         '''return the URL required for login'''
-        return reverse('login')
+        return reverse('login') 
 
 
 class CreateStatusMessageView(LoginRequiredMixin, CreateView):
@@ -158,6 +158,7 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     def get_object(self):
         return Profile.objects.get(user=self.request.user)
     
+    
 
 class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     '''Allows u to delete a status message'''
@@ -182,7 +183,7 @@ class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     def get_login_url(self) -> str:
         '''return the URL required for login'''
         return reverse('login')
-    
+
 
 class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
     '''Allows u to update a status message'''
@@ -208,6 +209,7 @@ class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
     def get_login_url(self) -> str:
         '''return the URL required for login'''
         return reverse('login')
+
 
 
 class AddFriendView(LoginRequiredMixin, View):
