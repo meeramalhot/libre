@@ -4,7 +4,7 @@ date: 2/20
 filename: views.py
 description: displaying different amounts of profiles for html
 '''
-
+from typing import Any
 from django.shortcuts import render, redirect
 from .models import Profile, StatusMessage, Image, StatusImage, Friend
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View, TemplateView
@@ -37,8 +37,9 @@ class ShowAllProfilesView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        profile = Profile.objects.get(user=self.request.user)
-        context['profile'] = profile
+        if self.request.user.is_authenticated:
+            profile = Profile.objects.get(user=self.request.user)
+            context['profile'] = profile
 
         return context
 
@@ -52,19 +53,22 @@ class ShowProfilePageView(DetailView):
     template_name = 'mini_fb/show_profile.html'
     context_object_name = 'profiles'
 
-    def get_object(self):
-        return Profile.objects.get(user=self.request.user)
+    # def get_object(self):
+    #     return Profile.objects.get(user=self.request.user)
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
-        profile = Profile.objects.get(user=self.request.user)
-        context['profile'] = profile
+        if self.request.user.is_authenticated:
+
+            profile = Profile.objects.get(user=self.request.user)
+            context['profile'] = profile
 
         return context
 
 
 #SHOULD BE CreateProfileView
-class CreateArticleView(LoginRequiredMixin, CreateView):
+class CreateArticleView(CreateView):
     '''A view to handle creation of a new profile.
     (1) display the HTML form to user (GET)
     (2) process the form submission and store the new Article object (POST)
@@ -72,10 +76,25 @@ class CreateArticleView(LoginRequiredMixin, CreateView):
 
     form_class = CreateProfileForm
     template_name = 'mini_fb/create_profile_form.html'
+    
+    def get_context_data(self, **kwargs: Any):
+        context = super().get_context_data(**kwargs)
+        # add to context
+        context['user_creation_form'] = UserCreationForm()
+        return context
+    
+    def form_valid(self, form):
+        user_form = UserCreationForm(self.request.POST)
+        if user_form.is_valid():
+                new_user = user_form.save()
+                login(self.request, new_user)
+                form.instance.user = new_user
+                return super().form_valid(form)
+        
 
+    
     def get_login_url(self) -> str:
-        '''return the URL required for login'''
-        return reverse('login') 
+        return reverse('login')
 
 
 class CreateStatusMessageView(LoginRequiredMixin, CreateView):
