@@ -30,7 +30,7 @@
     </tr>
 </table>
 
-{% if request.user.is_authenticated %}
+{% if request.user == profile.user %}
 <h3>
   <a href="{% url 'update_profile' %}">Update Profile</a> 
 </h3>
@@ -41,7 +41,7 @@
 
     <!-- link to create status messages -->
 
-{% if request.user.is_authenticated %}
+    {% if request.user == profile.user %}
 
 <h3>
   <a href="{% url 'create_status' %}">Create a Status</a>
@@ -55,7 +55,7 @@
     <p>Posted @ {{ status.timestamp }}</p> <br>
     <p>{{ status.message }}</p>
 
-    {% if request.user.is_authenticated %}
+    {% if request.user == profile.user %}
 
     <a href="{% url 'update' status.pk %}">Update this status</a>
     <a href="{% url 'delete' status.pk %}">Delete this status</a>
