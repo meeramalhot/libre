@@ -32,7 +32,7 @@
 
 {% if request.user.is_authenticated %}
 <h3>
-  <a href="{% url 'update_profile' profiles.pk %}">Update Profile</a>
+  <a href="{% url 'update_profile' %}">Update Profile</a> 
 </h3>
 
 {% endif %}
@@ -44,7 +44,7 @@
 {% if request.user.is_authenticated %}
 
 <h3>
-  <a href="{% url 'create_status' profiles.pk %}">Create a Status</a>
+  <a href="{% url 'create_status' %}">Create a Status</a>
 </h3>
 
 {% endif %}
@@ -83,16 +83,6 @@
 
 <br></br>
 
-{% if request.user.is_authenticated %}
-
-<h3>
-  <a href="{% url 'friend_suggestions' profiles.pk %}">Show Friend Suggestions</a>
-</h3>
-
-<h3>
-  <a href="{% url 'news_feed' profiles.pk %}">Show News Feed</a>
-</h3>
-{% endif %}
 
 
 {% endblock %}

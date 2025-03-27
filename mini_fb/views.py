@@ -42,7 +42,7 @@ class ShowProfilePageView(DetailView):
     template_name = 'mini_fb/show_profile.html'
     context_object_name = 'profiles'
 
-
+#SHOULD BE CreateProfileView
 class CreateArticleView(LoginRequiredMixin, CreateView):
     '''A view to handle creation of a new profile.
     (1) display the HTML form to user (GET)
@@ -90,6 +90,8 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
         '''return the URL required for login'''
         return reverse('login')
     
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
 
     def form_valid(self, form):
         '''This method handles the form submission and saves the new object to the Django database.
@@ -153,6 +155,9 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
         '''return the URL required for login'''
         return reverse('login')
     
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
+    
 
 class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
     '''Allows u to delete a status message'''
@@ -203,7 +208,7 @@ class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
     def get_login_url(self) -> str:
         '''return the URL required for login'''
         return reverse('login')
-    
+
 
 class AddFriendView(LoginRequiredMixin, View):
     def dispatch(self, request, *args, **kwargs):
@@ -220,6 +225,9 @@ class AddFriendView(LoginRequiredMixin, View):
     def get_login_url(self) -> str:
         '''return the URL required for login'''
         return reverse('login')
+    
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
 
     
 class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
@@ -231,6 +239,9 @@ class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
     def get_login_url(self) -> str:
         '''return the URL required for login'''
         return reverse('login')
+    
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
 
 class ShowNewsFeedView(LoginRequiredMixin, DetailView):
     model = Profile
@@ -241,6 +252,9 @@ class ShowNewsFeedView(LoginRequiredMixin, DetailView):
     def get_login_url(self) -> str:
         '''return the URL required for login'''
         return reverse('login')
+    
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
 
 # class RegistrationView(CreateView):
 #     '''

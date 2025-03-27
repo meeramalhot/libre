@@ -18,7 +18,7 @@
       <a href="{% url 'show_profile' suggestion.pk %}">
             {{ suggestion.first_name }} {{ suggestion.last_name }}<br>
           </a> <br>
-          <a href="{% url 'add_friend' profile.pk suggestion.pk %}"> Click here to add {{ suggestion.first_name }} as a friend</a> <br><br>
+          <a href="{% url 'add_friend' suggestion.pk %}"> Click here to add {{ suggestion.first_name }} as a friend</a> <br><br>
   
       {% endfor %}
   {% else %}
