@@ -7,10 +7,13 @@ description: displaying different amounts of profiles for html
 
 from django.shortcuts import render, redirect
 from .models import Profile, StatusMessage, Image, StatusImage, Friend
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View, TemplateView
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusForm
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin ## NEW
+from django.contrib.auth.forms import UserCreationForm ## NEW
+from django.contrib.auth.models import User ## NEW
+from django.contrib.auth import login # NEW
 
 
 class ShowAllProfilesView(ListView):
@@ -94,6 +97,15 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
         '''
 
         print(form.cleaned_data)
+
+
+        # find the logged in user
+        user = self.request.user
+        print(f"CreateStatusMessage user={user} article.user={user}")
+
+        # attach user to form instance (Article object):
+        form.instance.user = user
+
         #retrieve the PK from the URL pattern
         pk = self.kwargs['pk']
         profile = Profile.objects.get(pk=pk)
@@ -193,7 +205,7 @@ class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
         return reverse('login')
     
 
-class AddFriendView(View):
+class AddFriendView(LoginRequiredMixin, View):
     def dispatch(self, request, *args, **kwargs):
         profile_pk = self.kwargs['pk']
         other_pk = self.kwargs['other_pk']
@@ -204,15 +216,41 @@ class AddFriendView(View):
         friend_one.add_friend(friend_two)
         
         return redirect('show_profile', pk=friend_one.pk)
-    
+        
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
 
     
-class ShowFriendSuggestionsView(DetailView):
+class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = "mini_fb/friend_suggestions.html"
     context_object_name = "profile"
 
-class ShowNewsFeedView(DetailView):
+        
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
+
+class ShowNewsFeedView(LoginRequiredMixin, DetailView):
     model = Profile
     template_name = "mini_fb/news_feed.html"
     context_object_name = "profile"
+
+        
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
+
+# class RegistrationView(CreateView):
+#     '''
+#     show/process form for account registration
+#     '''
+
+#     template_name = 'blog/register.html'
+#     form_class = UserCreationForm
+#     model = User
+
+class ShowLoggedOut(TemplateView):
+    template_name = "mini_fb/done_logout.html"
+
