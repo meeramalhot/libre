@@ -83,6 +83,10 @@
 
 <br></br>
 
+{% if request.user == profiles.user %}
+<h3><a href="{%  url 'friend_suggestions' %}">Friends Suggestions</a></h3>
+<h3><a href="{% url 'news_feed' %}">News Feed</a></h3>
+{% endif %}
 
 
 {% endblock %}

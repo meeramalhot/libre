@@ -64,27 +64,17 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     template_name = "mini_fb/create_status_form.html"
 
     def get_success_url(self):
-        '''Provide a URL to redirect to after creating a new Comment.'''
-        # return reverse('show_all')
-        #retrieve the PK from the URL pattern
-        pk = self.kwargs['pk']
-        #call reverse to generate the URL for this Article
-        return reverse('show_profile', kwargs={'pk':pk})
+        '''Provide a URL to redirect to after creating a new status message.'''
+        profile = Profile.objects.get(user=self.request.user)
+        return reverse('show_profile', kwargs={'pk': profile.pk})
     
-    def get_context_data(self):
-        '''Return the dictionary of context variables for use in the template'''
-
-        #calling the superclass method
-        context = super().get_context_data()
-
-        # find/add the profile to the context data
-        # retrieve the PK from the URL pattern
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
-
-        # add this profile into the context dictionary:
-        context ['profile'] = profile
-        return context 
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+        context = super().get_context_data(**kwargs)
+        
+        profile = Profile.objects.get(user=self.request.user)
+        context['profile'] = profile
+        return context
     
     def get_login_url(self) -> str:
         '''return the URL required for login'''
@@ -97,22 +87,14 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
         '''This method handles the form submission and saves the new object to the Django database.
         We need to add the foreign key (of the Article) to the Comment object before saving it to the database
         '''
-
         print(form.cleaned_data)
-
-
-        # find the logged in user
         user = self.request.user
-        print(f"CreateStatusMessage user={user} article.user={user}")
-
-        # attach user to form instance (Article object):
+        print(f"CreateStatusMessage user={user}")
         form.instance.user = user
 
-        #retrieve the PK from the URL pattern
-        pk = self.kwargs['pk']
-        profile = Profile.objects.get(pk=pk)
-        # attach this article to the comment
-        form.instance.profile = profile # set the FK
+        #logged-in user's profile instead of pk
+        profile = Profile.objects.get(user=self.request.user)
+        form.instance.profile = profile  # set the foreign key
 
         # save the status message to database
         sm = form.save()
@@ -143,13 +125,10 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     template_name = "mini_fb/update_profile_form.html"
 
     def get_success_url(self):
-        '''Return the URL to redirect to after updating the profile.'''
+        '''return the URL to redirect to after updating the profile.'''
         # get the pk for this profile
-        pk = self.kwargs.get('pk')
-        profile = Profile.objects.get(pk=pk)
-        
-        # reverse to show the profile detail page
-        return reverse('show_profile', kwargs={'pk': profile.pk})
+        return reverse('show_profile', kwargs={'pk': self.object.pk})
+
     
     def get_login_url(self) -> str:
         '''return the URL required for login'''
