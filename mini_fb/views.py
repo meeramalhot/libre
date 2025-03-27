@@ -14,6 +14,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin ## NEW
 from django.contrib.auth.forms import UserCreationForm ## NEW
 from django.contrib.auth.models import User ## NEW
 from django.contrib.auth import login # NEW
+from django.contrib.auth.views import LoginView  # NEW
+
 
 
 class ShowAllProfilesView(ListView):
@@ -32,6 +34,14 @@ class ShowAllProfilesView(ListView):
             print(f'ShowAllView.dispatch(): not logged in.')
 
         return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = Profile.objects.get(user=self.request.user)
+        context['profile'] = profile
+
+        return context
+
 
 
 class ShowProfilePageView(DetailView):
@@ -41,6 +51,17 @@ class ShowProfilePageView(DetailView):
     model = Profile
     template_name = 'mini_fb/show_profile.html'
     context_object_name = 'profiles'
+
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = Profile.objects.get(user=self.request.user)
+        context['profile'] = profile
+
+        return context
+
 
 #SHOULD BE CreateProfileView
 class CreateArticleView(LoginRequiredMixin, CreateView):
@@ -84,7 +105,7 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
         return Profile.objects.get(user=self.request.user)
 
     def form_valid(self, form):
-        '''This method handles the form submission and saves the new object to the Django database.
+        '''This method handles the form submission and sa{% url 'show_profile' profile.pk %}ves the new object to the Django database.
         We need to add the foreign key (of the Article) to the Comment object before saving it to the database
         '''
         print(form.cleaned_data)
@@ -243,10 +264,24 @@ class ShowNewsFeedView(LoginRequiredMixin, DetailView):
 #     show/process form for account registration
 #     '''
 
-#     template_name = 'blog/register.html'
+#     template_name = 'mini_fb/register.html'
 #     form_class = UserCreationForm
 #     model = User
+
+#     def get_success_url(self):
+#         '''The URL to redirect to after creating a new User.'''
+#         return reverse('login')
 
 class ShowLoggedOut(TemplateView):
     template_name = "mini_fb/done_logout.html"
 
+
+class ShowLogin(LoginView):
+    template_name = "mini_fb/login_here"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = Profile.objects.get(user=self.request.user)
+        context['profile'] = profile
+
+        return context
