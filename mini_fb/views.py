@@ -71,7 +71,7 @@ class CreateStatusMessageView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         '''Return the dictionary of context variables for use in the template.'''
         context = super().get_context_data(**kwargs)
-        
+
         profile = Profile.objects.get(user=self.request.user)
         context['profile'] = profile
         return context
@@ -193,10 +193,11 @@ class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
 
 class AddFriendView(LoginRequiredMixin, View):
     def dispatch(self, request, *args, **kwargs):
-        profile_pk = self.kwargs['pk']
-        other_pk = self.kwargs['other_pk']
 
-        friend_one = Profile.objects.get(pk=profile_pk)
+        # dont use pk to get friend_one
+        friend_one = Profile.objects.get(user=request.user)
+        # Retrieve the other user's pk from the URL parameter 'other_pk'
+        other_pk = self.kwargs['other_pk']
         friend_two = Profile.objects.get(pk=other_pk)
 
         friend_one.add_friend(friend_two)
