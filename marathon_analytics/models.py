@@ -36,3 +36,52 @@ class Result(models.Model):
     def __str__(self):
         '''Return a string representation of this model instance.'''
         return f'{self.first_name} {self.last_name} ({self.city}, {self.state}), {self.time_finish}'
+    
+
+
+def load_data():
+    '''Function to load data records from CSV file into Django model instances.'''
+
+	# delete existing records to prevent duplicates:
+    Result.objects.all().delete()
+	
+    filename = '/Users/meeramalhotra/Downloads/2023_chicago_results.csv'
+    f = open(filename)
+    f.readline() # discard headers
+
+    for line in f:
+        fields = line.split(',')
+       
+        try:
+            # create a new instance of Result object with this record from CSV
+            result = Result(bib=fields[0],
+                            first_name=fields[1],
+                            last_name=fields[2],
+                            ctz = fields[3],
+                            city = fields[4],
+                            state = fields[5],
+                            
+                            gender = fields[6],
+                            division = fields[7],
+
+                            place_overall = fields[8],
+                            place_gender = fields[9],
+                            place_division = fields[10],
+                        
+                            start_time_of_day = fields[11],
+                            finish_time_of_day = fields[12],
+                            time_finish = fields[13],
+                            time_half1 = fields[14],
+                            time_half2 = fields[15],
+                        )
+        
+
+            result.save() # commit to database
+            print(f'Created result: {result}')
+            
+        except:
+            print(f"Skipped: {fields}")
+    
+    print(f'Done. Created {len(Result.objects.all())} Results.')
+
+
