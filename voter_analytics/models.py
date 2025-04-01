@@ -18,7 +18,6 @@ class Voter(models.Model):
     party_affiliation = models.TextField()
     zip_code = models.IntegerField()
     reg_date= models.DateField()
-    party_affiliation = models.TextField()
 
     precinct =  models.TextField()
     v20state = models.BooleanField()

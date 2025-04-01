@@ -1,6 +1,8 @@
 from django.urls import path
-from .views import * #ShowAllProfilesView, ShowProfilePageView, CreateArticleView
+from .views import *
 from django.contrib.auth import views as auth_views, logout    ## NEW
 
 
-urlpatterns = []
+urlpatterns = [
+  	  path('', VotersListView.as_view(), name="home"),
+]
