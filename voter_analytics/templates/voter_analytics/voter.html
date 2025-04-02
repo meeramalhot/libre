@@ -1,0 +1,48 @@
+<!-- voter_analytics/templates/voter_analytics/voter_detail.html -->
+{% extends "voter_analytics/base.html" %}
+{% block content %}
+  <h1>Voter Page</h1>
+
+  <h2>Basic Voter Info</h2>
+  <div style="text-align: center;">
+
+  <p style="text-decoration-line: underline;">Name of Voter</p>
+  <p>{{ voter.first_name }} {{ voter.last_name }}</p>
+
+  <p style="text-decoration-line: underline;">Voter Date of Birth</p>
+      <p>{{ voter.dob }}</p>
+
+    <p style="text-decoration-line: underline;">Voter Party Affiliation</p>
+  <p>{{ voter.party_affiliation }}</p>
+
+  <p style="text-decoration-line: underline;">Voter Score</p>
+  <p>{{ voter.voter_score }}</p>
+  
+  <p style="text-decoration-line: underline;">Voter History (if true, voted in election, if false, did not vote in election)</p>
+  <p>2020 State: {{ voter.v20state }}</p>
+  <p>2021 Town: {{ voter.v21town }}</p>
+  <p>2021 Primary: {{ voter.v21primary }}</p>
+  <p>2022 General: {{ voter.v22general }}</p>
+  <p>2023 Town: {{ voter.v23town }}</p> <br>
+
+
+  <h2>Voter Address Info</h2>
+  <p>
+    <a href="https://www.google.com/maps/search/?api=1&query={{ voter.street_number }}+{{ voter.street_name }}+{{ voter.apartment_num }}+{{ voter.zip_code }}">
+    </a>
+  </p>
+
+  <p>
+    {{ voter.street_number }} {{ voter.street_name }} {{ voter.apartment_num }}, NEWTON MA {{ voter.zip_code }}<br>
+    
+    Precinct {{ voter.precinct }} is where voter votes<br>
+  </p>
+
+
+    <a href="{% url 'home' %}">See all voters</a><br>
+
+  <div style="text-align: center;">
+
+
+
+{% endblock %}

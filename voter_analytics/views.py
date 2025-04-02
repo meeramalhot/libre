@@ -51,3 +51,9 @@ class VotersListView(ListView):
           results = results.filter(v23town=True)
       
       return results
+
+
+class VoterDetailView(DetailView):
+    model = Voter
+    template_name = 'voter_analytics/voter.html'
+    context_object_name = 'voter'
