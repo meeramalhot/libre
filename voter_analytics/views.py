@@ -25,6 +25,7 @@ class VotersListView(ListView):
               results = results.filter(party_affiliation=party)
       
       if 'min_dob' in self.request.GET:
+          
           min_year = self.request.GET['min_dob']
           if min_year:
               results = results.filter(dob__year__gte=min_year)
@@ -35,9 +36,10 @@ class VotersListView(ListView):
               results = results.filter(dob__year__lte=max_year)
       
       if 'voter_score' in self.request.GET:
+          
           score = self.request.GET['voter_score']
           if score:
-              results = results.filter(voter_score=score)
+                results = results.filter(voter_score=score)
       
       if 'v20state' in self.request.GET:
           results = results.filter(v20state=True)
@@ -57,3 +59,28 @@ class VoterDetailView(DetailView):
     model = Voter
     template_name = 'voter_analytics/voter.html'
     context_object_name = 'voter'
+
+
+class VoterGraphView(DetailView):
+    '''View to show detail page for one result.'''
+
+    template_name = 'voter_analytics/graphs.html'
+    model = Voter
+    context_object_name = 'voter'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        v = context['v']
+        x= []
+        y=[]
+        fig = go.Pie(labels=x, values=y) 
+
+        title_text = f"Voters by their party affiliation"
+        # obtain the graph as an HTML div"
+        party_pie = plotly.offline.plot({"data": [fig], 
+                                         "layout_title_text": title_text,
+                                         }, 
+                                         auto_open=False, 
+                                         output_type="div")
+        # send div as template context variable
+        context['party_pie'] = party_pie
