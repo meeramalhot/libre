@@ -56,13 +56,15 @@ class VotersListView(ListView):
 
 
 class VoterDetailView(DetailView):
+    '''View to display single voter'''
+
     model = Voter
     template_name = 'voter_analytics/voter.html'
     context_object_name = 'voter'
 
 
 class VoterGraphView(DetailView):
-    '''View to show detail page for one result.'''
+    '''View to show graphs of voter data.'''
 
     template_name = 'voter_analytics/graphs.html'
     model = Voter
