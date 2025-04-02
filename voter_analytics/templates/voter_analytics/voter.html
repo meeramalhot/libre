@@ -2,6 +2,7 @@
 {% extends "voter_analytics/base.html" %}
 {% block content %}
   <h1>Voter Page</h1>
+  <a href="{% url 'home' %}">See all voters</a><br>
 
   <h2>Basic Voter Info</h2>
   <div style="text-align: center;">
@@ -37,9 +38,6 @@
     
     Precinct {{ voter.precinct }} is where voter votes<br>
   </p>
-
-
-    <a href="{% url 'home' %}">See all voters</a><br>
 
   <div style="text-align: center;">
 
