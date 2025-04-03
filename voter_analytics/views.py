@@ -7,6 +7,10 @@ from django.views.generic import ListView, DetailView
 from . models import *
 import plotly
 import plotly.graph_objs as go
+from datetime import datetime
+from collections import OrderedDict
+
+
 
 class VotersListView(ListView):
     '''View to display marathon results'''
@@ -63,7 +67,7 @@ class VoterDetailView(DetailView):
     context_object_name = 'voter'
 
 
-class VoterGraphView(DetailView):
+class VoterGraphView(ListView):
     '''View to show graphs of voter data.'''
 
     template_name = 'voter_analytics/graphs.html'
@@ -72,9 +76,49 @@ class VoterGraphView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        v = context['v']
-        x= []
-        y=[]
+        voter = context['voter']
+
+        total_voters = self.get_queryset()
+
+        voter_dob = {}
+        for voter in total_voters:
+            year = voter.dob.year
+            #add to key w .get
+            voter_dob[year] = voter_dob.get(year, 0) + 1
+
+        sorted_years = sorted(voter_dob.keys())
+        x = sorted_years
+        y = [voter_dob[year] for year in sorted_years]
+
+        print(x)
+        print(y)
+
+        fig = go.Bar(x=x, y=y)
+        title_text = "Voter Date of Birth Distribution"
+        dob_bar = plotly.offline.plot(
+             {"data": [fig], "layout": {"title": title_text}},
+             auto_open=False,
+             output_type="div"
+        )
+
+        context['dob_bar'] = dob_bar
+
+
+        #PIE CHART
+        # dict for party: count
+        party_totals = {}
+
+        for voter in total_voters:
+            party = voter.party_affiliation
+            if party:
+                 if party in party_totals:
+                    party_totals[party] += 1
+                 else:
+                    party_totals[party] = 1
+        
+        x = list(party_totals.keys()) 
+        y = list(party_totals.values()) 
+
         fig = go.Pie(labels=x, values=y) 
 
         title_text = f"Voters by their party affiliation"
@@ -84,5 +128,13 @@ class VoterGraphView(DetailView):
                                          }, 
                                          auto_open=False, 
                                          output_type="div")
+        
         # send div as template context variable
         context['party_pie'] = party_pie
+
+        #BAR CHART 2
+        elect_count = {}
+
+
+
+        return context  
