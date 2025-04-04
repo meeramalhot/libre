@@ -1,0 +1,154 @@
+<!-- voter_analytics/templates/voter_analytics/search_g.html -->
+<h1>Search for Voters</h1>
+<form action="{% url 'graphs' %}" method="get">
+  <table>
+    <tr>
+      <th>Party Affiliation:</th>
+      <td>
+        <select name="party_affiliation">
+            <option value="">Any</option>
+          <option value="U">U</option>
+           <option value="D">D</option>
+          <option value="R">R</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th>Min Birth Year:</th>
+      <td>
+        <select name="min_dob">
+          <option value="">No Min</option>
+          <option value="1900">1900</option>
+          <option value="1905">1905</option>
+
+          <option value="1910">1910</option>
+          <option value="1915">1915</option>
+
+          <option value="1920">1920</option>
+          <option value="1925">1925</option>
+
+              <option value="1930">1930</option>
+              <option value="1935">1935</option>
+
+          <option value="1940">1940</option>
+          <option value="1945">1945</option>
+
+      <option value="1950">1950</option>
+      <option value="1945">1955</option>
+
+          <option value="1960">1960</option>
+          <option value="1965">1965</option>
+
+
+          <option value="1970">1970</option>
+          <option value="1975">1975</option>
+
+          <option value="1980">1980</option>
+          <option value="1985">1985</option>
+
+          <option value="1990">1990</option>
+          <option value="1995">1995</option>
+
+         
+          <option value="2000">2000</option>
+          <option value="2005">2005</option>
+
+          <option value="2010">2010</option>
+          <option value="2015">2015</option>
+
+          <option value="2020">2020</option>
+          <option value="2025">2025</option>
+
+        
+
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th>Max Birth Year:</th>
+      <td>
+        <select name="max_dob">
+          <option value="">No Max</option>
+          <option value="1900">1900</option>
+          <option value="1905">1905</option>
+
+          <option value="1910">1910</option>
+          <option value="1915">1915</option>
+
+          <option value="1920">1920</option>
+          <option value="1925">1925</option>
+
+              <option value="1930">1930</option>
+              <option value="1935">1935</option>
+
+          <option value="1940">1940</option>
+          <option value="1945">1945</option>
+
+      <option value="1950">1950</option>
+      <option value="1945">1955</option>
+
+          <option value="1960">1960</option>
+          <option value="1965">1965</option>
+
+
+          <option value="1970">1970</option>
+          <option value="1975">1975</option>
+
+          <option value="1980">1980</option>
+          <option value="1985">1985</option>
+
+          <option value="1990">1990</option>
+          <option value="1995">1995</option>
+
+         
+          <option value="2000">2000</option>
+          <option value="2005">2005</option>
+
+          <option value="2010">2010</option>
+          <option value="2015">2015</option>
+
+          <option value="2020">2020</option>
+          <option value="2025">2025</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th>Voter Score:</th>
+      <td>
+        <select name="voter_score">
+          <option value="">Any</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <th>Election Participation:</th>
+      <td>
+        <label>
+          <input type="checkbox" name="v20state">
+          Voted in the 2020 state election
+        </label><br>
+        <label>
+          <input type="checkbox" name="v21town">
+          Voted in the 2021 town election
+        </label><br>
+        <label>
+          <input type="checkbox" name="v21primary">
+          Voted in 2021 primary election
+        </label><br>
+        <label>
+          <input type="checkbox" name="v22general"> Voted in 2022 general election</label><br>
+        <label>
+          <input type="checkbox" name="v23town"> Voted in 2023 town election</label>
+      </td>
+    </tr>
+    <tr>
+<td>   <input type="submit" value="Search">
+      </td>
+    </tr>
+  </table>
+</form>

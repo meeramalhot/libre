@@ -8,8 +8,6 @@ from . models import *
 import plotly
 import plotly.graph_objs as go
 from datetime import datetime
-from collections import OrderedDict
-
 
 
 class VotersListView(ListView):
@@ -90,9 +88,6 @@ class VoterGraphView(ListView):
         x = sorted_years
         y = [voter_dob[year] for year in sorted_years]
 
-        print(x)
-        print(y)
-
         fig = go.Bar(x=x, y=y)
         title_text = "Voter Date of Birth Distribution"
         dob_bar = plotly.offline.plot(
@@ -133,8 +128,38 @@ class VoterGraphView(ListView):
         context['party_pie'] = party_pie
 
         #BAR CHART 2
-        elect_count = {}
 
+        election_counts = {
+            'v20state': 0,
+            'v21town': 0,
+            'v21primary': 0,
+            'v22general': 0,
+            'v23town': 0,
+        }
 
+        for voter in total_voters:
+            if voter.v20state == True:
+                election_counts['v20state'] += 1
+            if voter.v21town == True:
+                election_counts['v21town'] += 1
+            if voter.v21primary == True:
+                election_counts['v21primary'] += 1
+            if voter.v22general == True:
+                election_counts['v22general'] += 1
+            if voter.v23town == True:
+                election_counts['v23town'] += 1
+
+        x = list(election_counts.keys())
+        y = list(election_counts.values())
+
+        fig = go.Bar(x=x, y=y)
+        title_text = "Votes per Election"
+        elect_bar = plotly.offline.plot(
+            {"data": [fig], "layout": {"title": title_text}},
+            auto_open=False,
+            output_type="div"
+        )
+
+        context['elect_bar'] = elect_bar
 
         return context  

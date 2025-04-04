@@ -2,6 +2,9 @@
 {% extends "voter_analytics/base.html" %}
 {% block content %}
 
+<div class="row">
+  {% include "voter_analytics/search_g.html" %}    
+</div>
 
   <div>
     {{dob_bar|safe}} 
@@ -11,7 +14,10 @@
     {{party_pie|safe}} 
   </div>
 
-<p>something</p>
+  <div>
+    {{elect_bar|safe}} 
+  </div>
+
 
 
 {% endblock %}
