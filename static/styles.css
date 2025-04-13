@@ -1,40 +1,117 @@
 * {
-  font-family: "Lucida Console", "Courier New", monospace;
+  font-family: "Times New Roman", Times, serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #fff7e5;
+}
+
+header {
+  background-color: #FADBD8; 
+  padding-top: 4vh;
+  text-align: center;
+  color: #dd236a;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+  padding-bottom: 3vh;
 }
 
 nav {
-  margin-left: auto;
-  background-color: aliceblue;
-
+  padding: 1rem;
 }
 
 nav ul {
-  list-style-type: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
-  padding-bottom: 1vh;
+  justify-content: center;
+  padding-bottom: 3vh;
+
 }
 
 nav ul li {
-  padding: 5px;
-}
-td {
-  border: 1px solid #00a6ff;
-  border-bottom: 1px solid #00a6ff;
-  padding: 3px 3px;
-  text-align: center;
+  margin: 0 15px;
 }
 
-h1 {
+nav ul li a {
+  text-decoration: none;
+  color: #dd236a; 
+  background-color: #FADBD8;
+  border-radius: 50%;
   padding: 2vh;
+
+}
+
+nav ul li a:hover {
+  color: #ff9e5d; 
+}
+
+main {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
 h2 {
   text-align: center;
-  margin-bottom: 3vh;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
 }
 
-div {
-  max-width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 0.75rem;
+  text-align: center;
+  border: 1px solid #dd236a;
+}
+
+table th {
+  background-color: #FADBD8; 
+  color: #dd236a;
+}
+
+
+table tr:hover {
+  background-color: #e6fffa; 
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #C9AEDC; 
+  color: #44355A;
+  margin-top: 2rem;
+}
+
+
+.profile-pic {
+  width: 75px;
+  height: 75px; 
+  object-fit: cover; 
+  border-radius: 50%;
+}
+
+
+.profile-name {
+  display: inline-block;          
+  background-color: #FADBD8; 
+  color: #dd236a;  
+  border-radius: 12px;
+  padding: 0.25rem 0.5rem;
+  font-weight: bold;
+  text-align: center;
 }

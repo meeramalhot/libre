@@ -1,0 +1,39 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<div>
+  <table>
+    <tr>
+      <th>Profile Pic</th>
+      <th>Full Name</th>
+      <th>Email</th>
+    </tr>
+    {% for p in profiles %}
+    <tr>
+      <td>
+        <a href="{% url 'show_profile' p.pk %}">
+          {% if p.pfp %}
+          <img class="profile-pic" src="{{ p.pfp.url }}" alt="{{ p.first_name }}'s profile picture" style="width:75px; height:90px;">
+            <!-- add a empty profile pic -->
+          {% endif %}
+        </a>
+          
+      
+      
+      </td>
+      <td>
+        <a href="{% url 'show_profile' p.pk %}">
+          <span class="profile-name">
+          {{ p.first_name }} {{ p.last_name }}
+        </span>
+
+        </a>
+      </td>
+      <td>          <span class="profile-name">
+        {{ p.email }}         </span>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

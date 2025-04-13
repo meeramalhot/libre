@@ -10,4 +10,8 @@ from .views import * #ShowAllProfilesView, ShowProfilePageView, CreateArticleVie
 from django.contrib.auth import views as auth_views, logout    ## NEW
 
 
-urlpatterns = [ ]
+urlpatterns = [
+    path('', ShowAllProfilesView.as_view(), name="profiles_all"),
+    path('profiles/', ShowAllProfilesView.as_view(), name='profiles_all'),
+    path('profiles/<int:pk>/', ProfileDetailView.as_view(), name='show_profile'),
+]
