@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 
-class Profile(models.Model):
+class UserProfile(models.Model):
     '''Encapsulate profile info for a person.'''
 
     # data attributes of a profile:
@@ -30,7 +30,7 @@ class Book(models.Model):
     author = models.TextField(blank=True)
     book_cover = models.ImageField(blank=True) # an actual image
     genre = models.TextField(blank=True)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
         '''Return a string representation of this book object.'''
@@ -40,7 +40,7 @@ class Review(models.Model):
     review = models.TextField(blank=True)
     rating = models.IntegerField(blank=True)
     date_finished = models.DateTimeField(blank=True)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -49,10 +49,10 @@ class Review(models.Model):
 
 
 class Friend(models.Model):
-    profile1 = models.ForeignKey(Profile, related_name="profile1", on_delete=models.CASCADE)
-    profile2 = models.ForeignKey(Profile, related_name="profile2", on_delete=models.CASCADE)
+    pro1 = models.ForeignKey(UserProfile, related_name="pro1", on_delete=models.CASCADE)
+    pro2 = models.ForeignKey(UserProfile, related_name="pro2", on_delete=models.CASCADE)
 
     def __str__(self):
         '''Return a string representation of friend object.'''
-        return f'{self.profile1} & {self.profile2}'
+        return f'{self.pro1} & {self.pro2}'
     
