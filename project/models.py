@@ -30,6 +30,7 @@ class Book(models.Model):
     author = models.TextField(blank=True)
     book_cover = models.ImageField(blank=True) # an actual image
     genre = models.TextField(blank=True)
+    pages = models.IntegerField(blank=True)
     profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
