@@ -2,19 +2,67 @@
 
 {% block content %}
 
-<h2> {{profiles.first_name}}'s Page </h2>
+<style>
+h2 {
+  color: #dd236a; 
+}
+
+.book-review {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ffb7b7;
+
+    padding-bottom: 2vh;
+  }
+
+  .book-cover {
+    margin-right: 20px;
+  }
+
+  .review-content {
+    flex: 1;
+  }
+
+  .book-title {
+    font-weight: bold;
+
+      margin: 0 0 5px 0;
+  }
+
+  .book-review-text {
+    margin: 5px 0;
+  }
+
+  .book-rating {
+    margin: 5px 0;
+  }
+</style>
+
+
+<h2 >{{ profiles.first_name }}'s Page</h2>
 
 {% if profiles.pfp %}
-<img class="profile-pic" src="{{ profiles.pfp.url }}" alt="{{ profiles.first_name }}'s profile picture" style="width:75px; height:90px;">
+  <img class="profile-pic" src="{{ profiles.pfp.url }}" alt="{{ profiles.first_name }}'s profile picture" style="width:90px; height:110px;">
 {% endif %}
 
+<h2>{{ profiles.first_name }}'s Library</h2>
 
-<h2>What {{profiles.first_name}} has been reading</h2>
 {% for book in profiles.get_books %}
-    <p>{{ book.title }} by {{book.author}} </p>
-    <p>{{ book.genre }}</p>
-    <img src = "{{book.book_cover.url }}" alt="book cover" style="width:75px; height:90px;"></img>
-
+  {% for review in book.get_reviews %}
+    <div class="book-review">
+      <div class="book-cover">
+        <img src="{{ book.book_cover.url }}" alt="book cover" style="width:75px; height:120px;">
+      </div>
+      <div class="review-content">
+        <p class="book-title">{{ book.title }} by {{ book.author }}</p>
+          <p style="font-style: italic;">{{ book.genre }}</p>
+        <p class="book-rating">Rating: {{ review.rating }} ⭐</p>
+        <p class="book-review-text">{{ review.review }}</p>
+      </div>
+    </div>
+  {% endfor %}
 {% endfor %}
 
 {% endblock %}
+

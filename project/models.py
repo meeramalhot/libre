@@ -31,7 +31,6 @@ class UserProfile(models.Model):
         books = Book.objects.filter(profile=self)
         return books
     
-    #FIX ME
     def get_reviews(self):
         revs = Review.objects.filter(profile=self)
         return revs
