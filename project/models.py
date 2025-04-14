@@ -27,7 +27,7 @@ class UserProfile(models.Model):
     
         
     def get_books(self):
-        '''Return a QuerySet of statuses related to profile.'''
+        '''Return a QuerySet of books related to profile.'''
         books = Book.objects.filter(profile=self)
         return books
     
@@ -44,7 +44,7 @@ class Book(models.Model):
         return f'{self.title} by {self.author}'
     
     def get_reviews(self):
-        '''Return a QuerySet of statuses related to profile.'''
+        '''Return a queryset of reviews related to a particular book'''
         reviews = Review.objects.filter(book=self)
         return reviews
     
