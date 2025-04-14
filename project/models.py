@@ -43,6 +43,11 @@ class Book(models.Model):
         '''Return a string representation of this book object.'''
         return f'{self.title} by {self.author}'
     
+    def get_reviews(self):
+        '''Return a QuerySet of statuses related to profile.'''
+        reviews = Review.objects.filter(book=self)
+        return reviews
+    
 class Review(models.Model):
     review = models.TextField(blank=True)
     rating = models.IntegerField(blank=True)
