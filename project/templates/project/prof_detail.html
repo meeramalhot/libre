@@ -2,5 +2,19 @@
 
 {% block content %}
 
+<h2> {{profiles.first_name}}'s Page </h2>
+
+{% if profiles.pfp %}
+<img class="profile-pic" src="{{ profiles.pfp.url }}" alt="{{ profiles.first_name }}'s profile picture" style="width:75px; height:90px;">
+{% endif %}
+
+
+<h2>What {{profiles.first_name}} has been reading</h2>
+{% for book in profiles.get_books %}
+    <p>{{ book.title }} by {{book.author}} </p>
+    <p>{{ book.genre }}</p>
+    <img src = "{{book.book_cover.url }}" alt="book cover" style="width:75px; height:90px;"></img>
+
+{% endfor %}
 
 {% endblock %}

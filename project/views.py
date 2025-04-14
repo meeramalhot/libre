@@ -21,4 +21,4 @@ class ShowAllProfilesView(ListView):
 class ProfileDetailView(DetailView):
     model = UserProfile
     template_name = 'project/prof_detail.html'
-    context_object_name = 'profile'
+    context_object_name = 'profiles'

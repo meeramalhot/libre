@@ -25,6 +25,12 @@ class UserProfile(models.Model):
         '''Return a string representation of this profile object.'''
         return f'{self.first_name} {self.last_name}'
     
+        
+    def get_books(self):
+        '''Return a QuerySet of statuses related to profile.'''
+        books = Book.objects.filter(profile=self)
+        return books
+    
 class Book(models.Model):
     title = models.TextField(blank=True)
     author = models.TextField(blank=True)
