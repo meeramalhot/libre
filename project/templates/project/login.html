@@ -6,7 +6,56 @@
 - need to set "next" to redirect to correct page.
 -->
 
+<style>
+    h1 {
+      color: #dd236a; 
+      margin: auto;
+      text-align: center;
+      font-size: 4vh;
+    }
+
+    form {
+        margin: auto;
+        text-align: center;
+        padding: 3vh;
+    }
+    
+    div {
+        padding: 2.5vh;
+    }
+
+    button {
+        margin-top: 2vh;
+    }
+
+    hr {
+        border-color: #a5fbff; 
+        color: #a5fbff;
+    }
+
+    label {
+        padding-right: 4px;
+        color: #dd236a;
+    }
+
+    button {
+        background-color: pink;
+        /* border-radius: 40%; */
+        height: 5vh;
+        width: 12vh;
+        color:#dd236a;
+        border-color: #a5fbff;
+    }
+
+    input {
+        border-color: #dd236a;
+        box-shadow: none;
+        color:#a5fbff;
+    }
+  </style>
+
 <h1>Login</h1>
+<div>
 <form method="post" action="{% url 'login' %}" >
     {% csrf_token %}
     {{form}}
@@ -21,8 +70,9 @@
 
     <button type="submit">Login</button>
 
-</form>
 
+</form>
+</div>
 <hr>
 
 

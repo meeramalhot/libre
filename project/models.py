@@ -25,15 +25,15 @@ class UserProfile(models.Model):
         '''Return a string representation of this profile object.'''
         return f'{self.first_name} {self.last_name}'
     
-        
-    def get_books(self):
-        '''Return a QuerySet of books related to profile.'''
-        books = Book.objects.filter(profile=self)
-        return books
-    
     def get_reviews(self):
         revs = Review.objects.filter(profile=self)
         return revs
+    
+    def get_books(self):
+        '''Return a QuerySet of books related to profile.'''
+        books = Book.objects.filter(review__profile=self)
+        return books
+    
     
 
 class Book(models.Model):
@@ -42,7 +42,6 @@ class Book(models.Model):
     book_cover = models.ImageField(blank=True) # an actual image
     genre = models.TextField(blank=True)
     pages = models.IntegerField(blank=True)
-    profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
     def __str__(self):
         '''Return a string representation of this book object.'''
