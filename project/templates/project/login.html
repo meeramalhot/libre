@@ -1,0 +1,29 @@
+<!-- project/templates/base.html -->
+{% extends 'project/base.html' %}
+
+{% block content %}
+<!-- This basic authentication form works.
+- need to set "next" to redirect to correct page.
+-->
+
+<h1>Login</h1>
+<form method="post" action="{% url 'login' %}" >
+    {% csrf_token %}
+    {{form}}
+    <!-- This basic login form works, but after login in
+     assumed the existance of a page at /registration/profile, which
+     does not exist.  -->
+     {% if request.GET.next %}
+     <input type="hidden" name="next" value="{{request.GET.next}}">
+     {% else %}
+     <input type="hidden" name="next" value="{% url 'profiles_all' %}">
+     {% endif %}
+
+    <button type="submit">Login</button>
+
+</form>
+
+<hr>
+
+
+{% endblock %}

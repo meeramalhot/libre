@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm ## NEW
 from django.contrib.auth.models import User ## NEW
 from django.contrib.auth import login # NEW
 from django.contrib.auth.views import LoginView  # NEW
+from .forms import *
 
 
 class ShowAllProfilesView(ListView):

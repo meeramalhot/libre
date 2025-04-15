@@ -15,6 +15,20 @@
         <ul>
           <li><a href="{% url 'profiles_all' %}">Home</a></li>
           <li><a href="{% url 'profiles_all' %}">Profiles</a></li>
+
+          {% if request.user.is_authenticated %}
+
+          <li><form id="logout" method="post" action="{% url 'logout' %}" >
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+          </form></li>
+
+          {% else % }
+
+          <li><a href="{% url 'login' %}">Login</a></li>
+
+          {% endif %}
+
         </ul>
       </nav>
     </header>
