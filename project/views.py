@@ -23,3 +23,29 @@ class ProfileDetailView(DetailView):
     model = UserProfile
     template_name = 'project/prof_detail.html'
     context_object_name = 'profiles'
+
+class CreateProfileView(CreateView):
+    '''A view to handle creation of a new profile.
+    (1) display the HTML form to user (GET)
+    (2) process the form submission and store the new Article object (POST)
+    '''
+
+    form_class = MakeProfileForm
+    template_name = 'project/make_profile.html'
+    
+    def get_context_data(self, **kwargs: Any):
+        context = super().get_context_data(**kwargs)
+        # add to context
+        context['user_creation_form'] = UserCreationForm()
+        return context
+    
+    def form_valid(self, form):
+        user_form = UserCreationForm(self.request.POST)
+        if user_form.is_valid():
+                new_user = user_form.save()
+                login(self.request, new_user)
+                form.instance.user = new_user
+                return super().form_valid(form)
+        
+    def get_login_url(self) -> str:
+        return reverse('login')

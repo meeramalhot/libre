@@ -1,12 +1,23 @@
+<style>
+    h1 {
+        color:#dd236a;
+        text-align: center;
+        padding-bottom: 2vh;
+    }
 
-    {% extends 'project/base.html' %}
+    input {
+        margin: auto;
+    }
+</style>
+
+{% extends 'project/base.html' %}
 
     {% block content %}
     
     <h1> Create a new profile</h1>
     <!-- form to write profile and generate profile page afterwards -->
     
-    <form action="{% url 'create_profile' %}" method="POST">
+    <form action="{% url 'make_profile' %}" method="POST">
         {% csrf_token %}
         <table>
             {{ form.as_table }}
