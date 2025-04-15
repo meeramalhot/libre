@@ -28,11 +28,6 @@
         margin-top: 2vh;
     }
 
-    hr {
-        border-color: #a5fbff; 
-        color: #a5fbff;
-    }
-
     label {
         padding-right: 4px;
         color: #dd236a;
@@ -45,16 +40,42 @@
         width: 12vh;
         color:#dd236a;
         border-color: #a5fbff;
+        margin-bottom: 3vh;
     }
 
     input {
-        border-color: #dd236a;
+        border-color: #C9AEDC; 
         box-shadow: none;
+        border-style: solid;
         color:#a5fbff;
+    }
+
+    .register-here{
+        background-color: pink;
+        color:#dd236a;
+        padding:1.5vh 2.5vh;
+        font-size: 2vh;
+        text-decoration: none;
+        border-color: #a5fbff; 
+        border-style: solid;
+    }
+
+    .account {
+        color:#dd236a;
+        font-size: 3vh;
+        font-weight: bold;
+    }
+
+    hr {
+        border-color: #a5fbff; 
+        color: #a5fbff;
+        border-top: 5px dotted;
+
     }
   </style>
 
-<h1>Login</h1>
+<h1>Login</h1><br>
+<hr class="bottom-hr"></hr>
 <div>
 <form method="post" action="{% url 'login' %}" >
     {% csrf_token %}
@@ -68,12 +89,14 @@
      <input type="hidden" name="next" value="{% url 'profiles_all' %}">
      {% endif %}
 
-    <button type="submit">Login</button>
-
+    <button type="submit">Login</button> <br>
+    
+    <p class="account"> Don't have an account? </p><br>
+    <a class="register-here" href="{% url 'make_profile' %}">Register</a>
 
 </form>
 </div>
-<hr>
+<hr class="top-hr">
 
 
 {% endblock %}
