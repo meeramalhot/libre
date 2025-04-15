@@ -34,6 +34,10 @@ class UserProfile(models.Model):
         books = Book.objects.filter(review__profile=self)
         return books
     
+    def get_absolute_url(self):
+        '''when submitting show profile form return to new profile of person'''
+        return reverse('show_profile', kwargs={'pk': self.pk})
+    
     
 
 class Book(models.Model):

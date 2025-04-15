@@ -11,12 +11,20 @@
   <body>
     <header>
       <h1>Libre</h1>
+      {% if request.user.is_authenticated %}
+      <li style="list-style: none">Hi, {{request.user.first_name}} 👋</li><br>
+      {% endif %}
       <nav>
         <ul>
           <li><a href="{% url 'profiles_all' %}">Home</a></li>
           <li><a href="{% url 'profiles_all' %}">Profiles</a></li>
 
           {% if request.user.is_authenticated %}
+          {% if profile %}
+
+            <li><a href="{% url 'show_profile' profile.pk %}">My Profile</a></li>
+            {% endif %}
+
 
           <li><form id="logout" method="post" action="{% url 'logout' %}" >
             {% csrf_token %}

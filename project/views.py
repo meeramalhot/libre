@@ -10,6 +10,8 @@ from django.contrib.auth.models import User ## NEW
 from django.contrib.auth import login # NEW
 from django.contrib.auth.views import LoginView  # NEW
 from .forms import *
+from django.utils import timezone
+
 
 
 class ShowAllProfilesView(ListView):
@@ -23,6 +25,16 @@ class ProfileDetailView(DetailView):
     model = UserProfile
     template_name = 'project/prof_detail.html'
     context_object_name = 'profiles'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+
+            profile = UserProfile.objects.get(user=self.request.user)
+            context['profile'] = profile
+
+        return context
 
 class CreateProfileView(CreateView):
     '''A view to handle creation of a new profile.
@@ -45,7 +57,11 @@ class CreateProfileView(CreateView):
                 new_user = user_form.save()
                 login(self.request, new_user)
                 form.instance.user = new_user
+                form.instance.date_joined = timezone.now()
                 return super().form_valid(form)
+        else:
+            print("invalid form!")
+            return self.form_invalid(form)
         
     def get_login_url(self) -> str:
         return reverse('login')
