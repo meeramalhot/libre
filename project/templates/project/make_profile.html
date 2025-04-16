@@ -8,13 +8,30 @@
     input {
         margin: auto;
     }
+
+    th {
+        width: 38%;
+    }
+
+    input {
+        margin-top: 2vh;
+        display: block;
+        margin: 0.5em auto;
+        background-color: aquamarine;
+    }
+
+    .input-sub {
+        text-align: center;
+        padding-top: 5vh;
+    }
+
 </style>
 
 {% extends 'project/base.html' %}
 
     {% block content %}
     
-    <h1> Create a new profile</h1>
+    <h1> Create a New Profile</h1>
     <!-- form to write profile and generate profile page afterwards -->
     
     <form action="{% url 'make_profile' %}" method="POST" enctype="multipart/form-data">
@@ -22,11 +39,12 @@
         <table>
             {{ form.as_table }}
         </table>
-    
         <table>
             {{ user_creation_form.as_table }}
         </table>
+        <div class="input-sub">
         <input type="submit" name="submit" value="Submit">
+         </div>
     </form>
     
     {% endblock %}

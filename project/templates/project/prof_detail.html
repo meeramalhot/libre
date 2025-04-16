@@ -73,6 +73,8 @@ h2 {
 
 {% for book in profiles.get_books %}
   {% for review in book.get_reviews %}
+    {% if review.profile == profiles %}
+
     <div class="book-review">
       <div class="book-cover">
         <img src="{{ book.book_cover.url }}" alt="book cover" style="width:75px; height:120px;">
@@ -89,20 +91,15 @@ h2 {
         <a href="{% url 'delete' review.pk %}">Delete Review</a>
         {% endif %}
 
+        {% endif %}
+
+
 
       </div>
     </div>
   {% endfor %}
 {% endfor %}
 
-<!-- <h2>Your Friends</h2>
-{% for friend in profiles.get_friends %}
-  <a href="{% url 'show_profile' friend.pk %}">{{ friend.first_name }} {{ friend.last_name }}</a>
-
-  <a href="{% url 'show_profile' friend.pk %}">
-  <img class="profile-pic" src="{{ friend.pfp.url }}" style="width:150px;height:200px;">
-
-{% endfor %} -->
 
 
 {% endblock %}
