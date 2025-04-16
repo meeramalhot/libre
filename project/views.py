@@ -21,6 +21,27 @@ class ShowAllProfilesView(ListView):
     template_name = 'project/show_all.html'
     context_object_name = 'profiles' # how to find the data in the template file
 
+
+    def dispatch(self, request, *args, **kwargs):
+        '''Override the dispatch method to add debugging information.'''
+
+        if request.user.is_authenticated:
+            print(f'ShowAllView.dispatch(): request.user={request.user}')
+        else:
+            print(f'ShowAllView.dispatch(): not logged in.')
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+        context = super().get_context_data(**kwargs)
+
+        profile = UserProfile.objects.get(user=self.request.user)
+        context['profile'] = profile
+        return context
+
 class ProfileDetailView(DetailView):
     model = UserProfile
     template_name = 'project/prof_detail.html'
