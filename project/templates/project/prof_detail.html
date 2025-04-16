@@ -57,11 +57,14 @@ h2 {
 
 {% if request.user.is_authenticated %}
 <a class="link" href="{% url 'create_review' %}">Review A New Book</a>
+<a class="link" href="{% url 'feed' %}">View Your Friends and Their Posts</a>
+<a class="link" href="{% url 'friend_suggest' %}">Make New Friends</a>
 {% endif %}
 
 {% if profiles.pfp %}
   <img class="profile-pic" src="{{ profiles.pfp.url }}" alt="{{ profiles.first_name }}'s profile picture" style="width:90px; height:110px;">
 {% endif %}
+
 
 
 <h2>{{ profiles.first_name }}'s Library</h2>
@@ -91,6 +94,16 @@ h2 {
     </div>
   {% endfor %}
 {% endfor %}
+
+<!-- <h2>Your Friends</h2>
+{% for friend in profiles.get_friends %}
+  <a href="{% url 'show_profile' friend.pk %}">{{ friend.first_name }} {{ friend.last_name }}</a>
+
+  <a href="{% url 'show_profile' friend.pk %}">
+  <img class="profile-pic" src="{{ friend.pfp.url }}" style="width:150px;height:200px;">
+
+{% endfor %} -->
+
 
 {% endblock %}
 

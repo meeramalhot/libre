@@ -140,3 +140,38 @@ class DeleteReviewView(LoginRequiredMixin, DeleteView):
     def get_login_url(self) -> str:
         '''return the URL required for login'''
         return reverse('login')
+    
+
+class AddFriendView(LoginRequiredMixin, View):
+    def dispatch(self, request, *args, **kwargs):
+
+        # dont use pk to get friend_one
+        friend_one = UserProfile.objects.get(user=request.user)
+        # Retrieve the other user's pk from the URL parameter 'other_pk'
+        other_pk = self.kwargs['other_pk']
+        friend_two = UserProfile.objects.get(pk=other_pk)
+
+        friend_one.add_friend(friend_two)
+        
+        return redirect('show_profile', pk=friend_one.pk)
+        
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
+    
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
+    
+
+class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
+    model = UserProfile
+    template_name = "project/friend_suggest.html"
+    context_object_name = "profile"
+
+        
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
+    
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)

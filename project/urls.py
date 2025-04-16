@@ -17,6 +17,9 @@ urlpatterns = [
     path('profile/create_review', CreateReviewView.as_view(), name="create_review"),
 
     path('profile/<int:pk>/delete', DeleteReviewView.as_view(), name='delete'),
+    path('profile/add_friend/<int:other_pk>/', AddFriendView.as_view(), name='add_friend'),
+    path('profile/friend_suggestions/', ShowFriendSuggestionsView.as_view(), name='friend_suggest'),
+
 
 
     path('login/', auth_views.LoginView.as_view(template_name='project/login.html'), name='login'), ## NEW

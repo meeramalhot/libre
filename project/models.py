@@ -38,7 +38,70 @@ class UserProfile(models.Model):
         '''when submitting show profile form return to new profile of person'''
         return reverse('show_profile', kwargs={'pk': self.pk})
     
+    def get_friends(self):
+        '''function to get friends associated w a profile'''
+        group1 = Friend.objects.filter(pro1 = self)
+        group2 = Friend.objects.filter(pro2 = self)
+
+        friend_group = group1 | group2
+        friend_array = []
+        for friend in friend_group:
+            #self will be container in first or second profile
+            if friend.pro1 != self:
+                #if not self is not the first, append the first
+                friend_array.append(friend.pro1)
+            else:
+                #friend will be contained in second
+                friend_array.append(friend.pro2)
+        
+        return friend_array
     
+    def add_friend(self, other):
+        '''function to add friends'''
+
+        if self == other:
+             return "cannot friend self"
+        
+        # false if empty
+        friendship = Friend.objects.filter(pro1=self, pro2=other)
+        #check if already friends
+        if not friendship:
+            friendship = Friend.objects.filter(pro1=other, pro2=self)
+            print("already friends, cannot friend")
+
+       #if not already a friend add as friend
+        if not friendship:
+            add_friend = Friend(pro1=self, pro2=other)
+            add_friend.save()
+            print("friend added!")
+    
+    
+    def get_friend_suggestions(self):
+        '''function to get generate a list of possible new friends who are not you, or already your friend'''
+
+        suggestions = []
+        current_friends = self.get_friends()
+
+        #add to possible friends if not already friends, or not se
+        for possible in UserProfile.objects.all():
+            if possible == self:
+                continue
+            elif possible in current_friends:
+                continue
+            else:
+                suggestions.append(possible)
+
+        return suggestions
+    
+    def get_news_feed(self):
+        '''function to see all your friends status messages '''
+
+        profiles_to_show = self.get_friends()
+
+        # order status mesages by time stamp
+        news_feed = Review.objects.filter(profile__in=profiles_to_show).order_by('-timestamp')
+
+        return list(news_feed)
 
 class Book(models.Model):
     title = models.TextField(blank=True)
@@ -56,6 +119,8 @@ class Book(models.Model):
         reviews = Review.objects.filter(book=self)
         return reviews
     
+
+
 class Review(models.Model):
     review = models.TextField(blank=True)
     rating = models.IntegerField(blank=True)
