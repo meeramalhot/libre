@@ -1,0 +1,37 @@
+<!-- author: meera malhotra
+    date: 4/16
+    description: show reviews on a newsfeed
+    mini_fb/templates/mini_fb/news_feed.html -->
+
+    {% extends 'project/base.html' %}
+
+    {% block content %}
+      <h2>{{ profile.first_name }} {{ profile.last_name }}’s News Feed</h2>
+    
+      <p><a href="{% url 'show_profile' profile.pk %}">Back to Profile</a></p>
+
+
+      <h2>Your Friends</h2>
+      {% for friend in profile.get_friends %}
+        <a href="{% url 'show_profile' friend.pk %}">{{ friend.first_name }} {{ friend.last_name }}</a>
+
+        <a href="{% url 'show_profile' friend.pk %}">
+        <img class="profile-pic" src="{{ friend.pfp.url }}" style="width:150px;height:200px;">
+
+        {% endfor %}
+    
+      {% if profile.get_news_feed %}
+    
+       <!-- loop to display friends status messages with their icon -->
+    
+      {% for review in profile.get_news_feed %}
+    
+        {% endfor %}
+    
+        {% else %}
+         <p>No posts... yet!</p>
+    {% endif %}
+    
+    
+    {% endblock %}
+

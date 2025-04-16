@@ -93,7 +93,7 @@ class UserProfile(models.Model):
 
         return suggestions
     
-    def get_news_feed(self):
+    def get_feed(self):
         '''function to see all your friends status messages '''
 
         profiles_to_show = self.get_friends()

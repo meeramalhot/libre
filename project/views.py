@@ -175,3 +175,16 @@ class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
     
     def get_object(self):
         return UserProfile.objects.get(user=self.request.user)
+    
+class ShowFeedView(LoginRequiredMixin, DetailView):
+    model = UserProfile
+    template_name = "project/feed.html"
+    context_object_name = "profile"
+
+        
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
+    
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
