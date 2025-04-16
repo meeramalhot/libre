@@ -37,16 +37,36 @@ h2 {
   .book-rating {
     margin: 5px 0;
   }
+
+  .link {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 2vh auto; /* centers the link horizontally and adds bottom margin */
+    text-align: center;
+    background-color: #C9AEDC;;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
 </style>
 
 
 <h2 >{{ profiles.first_name }}'s Page</h2>
 
+{% if request.user.is_authenticated %}
+<a class="link" href="{% url 'create_review' %}">Review A New Book</a>
+{% endif %}
+
 {% if profiles.pfp %}
   <img class="profile-pic" src="{{ profiles.pfp.url }}" alt="{{ profiles.first_name }}'s profile picture" style="width:90px; height:110px;">
 {% endif %}
 
+
 <h2>{{ profiles.first_name }}'s Library</h2>
+
+
 
 {% for book in profiles.get_books %}
   {% for review in book.get_reviews %}
@@ -61,6 +81,7 @@ h2 {
 
         
         <p class="book-review-text">{{ review.review }}</p>
+
       </div>
     </div>
   {% endfor %}

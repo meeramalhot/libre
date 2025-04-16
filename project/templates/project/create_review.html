@@ -1,0 +1,21 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<h1>Write a Book Review</h1>
+
+<form action="{% url 'create_review' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <h2>Book Information</h2>
+    <table>
+        {{ book_form.as_table }}
+    </table>
+    
+    <h2>Review</h2>
+    <table>
+        {{ review_form.as_table }}
+    </table>
+    
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
