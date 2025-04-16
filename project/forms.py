@@ -9,7 +9,7 @@ class MakeProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ['first_name', 'last_name', 'email', 'pfp']
 
-class BookForm(forms.ModelForm):
+class BookSelectionForm(forms.ModelForm):
     '''A form to add a book to the database'''
 
     class Meta:

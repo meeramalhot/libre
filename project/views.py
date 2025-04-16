@@ -2,7 +2,6 @@ from typing import Any
 from django.shortcuts import render, redirect
 from .models import *
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View, TemplateView
-#from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm, UpdateStatusForm
 from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin ## NEW
 from django.contrib.auth.forms import UserCreationForm ## NEW
@@ -90,7 +89,9 @@ class CreateProfileView(CreateView):
     def get_login_url(self) -> str:
         return reverse('login')
 
-class CreateReviewView(CreateView):
+
+#https://stackoverflow.com/questions/1395807/proper-way-to-handle-multiple-forms-on-one-page-in-django
+class CreateReviewView(LoginRequiredMixin, CreateView):
         '''A view to handle creation of a new Comment on an Article.'''
 
         template_name = "project/create_status_form.html"

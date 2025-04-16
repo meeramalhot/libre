@@ -1,3 +1,4 @@
+<!-- create_review.html -->
 {% extends 'project/base.html' %}
 
 {% block content %}
@@ -6,16 +7,17 @@
 <form action="{% url 'create_review' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     
-    <h2>Book Information</h2>
+    <h2>Choose or Upload a Book</h2>
     <table>
-        {{ book_form.as_table }}
+      {{ book_form.as_table }}
     </table>
     
-    <h2>Review</h2>
+    <h2>Your Review</h2>
     <table>
-        {{ review_form.as_table }}
+      {{ review_form.as_table }}
     </table>
     
     <input type="submit" value="Submit">
 </form>
 {% endblock %}
+
