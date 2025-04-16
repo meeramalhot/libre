@@ -115,3 +115,28 @@ class CreateReviewView(LoginRequiredMixin, CreateView):
         
         def get_object(self):
             return UserProfile.objects.get(user=self.request.user)
+        
+
+class DeleteReviewView(LoginRequiredMixin, DeleteView):
+    '''Allows u to delete a status message'''
+
+    template_name = "project/delete_review.html"
+    model = Review
+    context_object_name = 'review'
+
+    def get_success_url(self):
+        '''Return a the URL to which we should be directed after the delete.'''
+
+        # get the pk for this sm
+        pk = self.kwargs.get('pk')
+        review = Review.objects.get(pk=pk)
+        
+        # find the review to which this Profile is related by FK
+        profile = review.profile
+        
+        # reverse to show the article page
+        return reverse('show_profile', kwargs={'pk':profile.pk})
+    
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
