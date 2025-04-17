@@ -97,9 +97,11 @@ class UserProfile(models.Model):
         '''function to see all your friends status messages '''
 
         profiles_to_show = self.get_friends()
+        profiles_to_show.append(self)
+
 
         # order status mesages by time stamp
-        news_feed = Review.objects.filter(profile__in=profiles_to_show).order_by('-timestamp')
+        news_feed = Review.objects.filter(profile__in=profiles_to_show).order_by('-date_finished')
 
         return list(news_feed)
 

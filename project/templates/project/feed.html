@@ -1,36 +1,42 @@
 <!-- author: meera malhotra
     date: 4/16
     description: show reviews on a newsfeed
-    mini_fb/templates/mini_fb/news_feed.html -->
+    project/templates/project/news_feed.html -->
 
     {% extends 'project/base.html' %}
 
     {% block content %}
-      <h2>{{ profile.first_name }} {{ profile.last_name }}’s News Feed</h2>
+
+    <style>
+      .back {
+        text-decoration: none;
+        background-color: pink;
+        padding: 8px;
+        border-radius: 9px;
+        color: #dd236a;
+      }
+
+      img {
+        border: 3px solid pink;
+
+      }
+
+    </style>
+      <h2 style="color: #dd236a;">{{ profile.first_name }} {{ profile.last_name }}’s News Feed</h2>
     
-      <p><a href="{% url 'show_profile' profile.pk %}">Back to Profile</a></p>
+      <p style="text-align: center; "><a class="back" href="{% url 'show_profile' profile.pk %}">Back to Profile</a></p><br>
 
+    
+        {% for review in profile.get_feed %}
+          <img src="{{ review.profile.pfp.url }}" alt="{{ review.profile }}" style="width:60px;height:80px;border-radius:20px;"> </a>
+          <strong>{{ review.profile.first_name }} {{ review.profile.last_name }}</strong> reviewed 
+          <em>{{ review.book.title }}</em> by {{ review.book.author }}<br><br>
 
-      <h2>Your Friends</h2>
-      {% for friend in profile.get_friends %}
-        <a href="{% url 'show_profile' friend.pk %}">{{ friend.first_name }} {{ friend.last_name }}</a>
-
-        <a href="{% url 'show_profile' friend.pk %}">
-        <img class="profile-pic" src="{{ friend.pfp.url }}" style="width:150px;height:200px;">
-
+           Rating: {{ review.rating }}/5 ⭐
+          <p>{{ review.review }}</p>
+          <hr><br>
         {% endfor %}
-    
-      {% if profile.get_news_feed %}
-    
-       <!-- loop to display friends status messages with their icon -->
-    
-      {% for review in profile.get_news_feed %}
-    
-        {% endfor %}
-    
-        {% else %}
-         <p>No posts... yet!</p>
-    {% endif %}
+
     
     
     {% endblock %}

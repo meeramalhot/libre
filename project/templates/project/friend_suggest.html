@@ -1,15 +1,20 @@
 <!-- author: meera malhotra
     date: 4/16
     description: show friend suggestions
-    project/templates/project/friend_suggestions.html -->
+    project/templates/project/friend_suggest.html -->
 
     {% extends 'project/base.html' %}
 
     {% block content %}
-      <h2>People {{ profile.first_name }} {{ profile.last_name }} May Know...</h2>
-    
-        <!-- loop to display friends suggestions for a profile-->
-    
+
+    <style>
+      img {
+        margin: auto;
+      }
+
+    </style>
+      <h2 style="color: #dd236a;">People You May Know...</h2>
+        
       {% if profile.get_friend_suggestions %}
           {% for suggestion in profile.get_friend_suggestions %}
     
