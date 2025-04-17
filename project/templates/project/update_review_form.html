@@ -1,14 +1,29 @@
 {% extends 'project/base.html' %}
 
 {% block content %}
-  <h2>Update Your Review</h2>
+<style>
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      margin: 3rem 0.5rem 0  ;
+      background-color: #dd236a;
+      color: white;
+      text-decoration: none;
+      border: none;
+      font-size: 2vh;
+      text-align: center;
+    }
 
-  <form method="post" enctype="multipart/form-data">
+</style>
+
+  <h2 style="text-align: center; color: #dd236a;">Update Your Review</h2>
+
+  <form method="post" enctype="multipart/form-data" style="text-align: center;">
     {% csrf_token %}
 
     {{ form.as_p }}
 
-    <button type="submit">Update Review</button>
-    <a href="{% url 'show_profile' review.profile.pk %}">Cancel</a>
+       <button type="submit" class="btn">Update</button>
+    <a href="{% url 'show_profile' review.profile.pk %}" class="btn">Cancel</a>
   </form>
 {% endblock %}
