@@ -17,7 +17,7 @@
       }
 
       img {
-        border: 3px solid pink;
+        border: 3px solid rgb(255, 152, 169);
 
       }
 
@@ -28,8 +28,15 @@
 
     
         {% for review in profile.get_feed %}
-          <img src="{{ review.profile.pfp.url }}" alt="{{ review.profile }}" style="width:60px;height:80px;border-radius:20px;"> </a>
+        <a style="text-decoration: none;" href="{% url 'show_profile' review.profile.pk %}">
+
+          <img src="{{ review.profile.pfp.url }}" alt="{{ review.profile }}" style="width:60px;height:80px;border-radius:30px;"> 
+        </a>
+
+        <a href="{% url 'show_profile' review.profile.pk %}" style="color: black; text-decoration: none;">
           <strong>{{ review.profile.first_name }} {{ review.profile.last_name }}</strong> reviewed 
+        </a>
+
           <em>{{ review.book.title }}</em> by {{ review.book.author }}<br><br>
 
            Rating: {{ review.rating }}/5 ⭐
