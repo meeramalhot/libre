@@ -56,10 +56,15 @@ h2 {
 <h2 >{{ profiles.first_name }}'s Page</h2>
 
 {% if request.user.is_authenticated %}
-<a class="link" href="{% url 'create_review' %}">Review A New Book</a>
+    {% if request.user == profiles.user %}
+
+<a class="link" href="{% url 'pick_book' %}">Review A New Book</a>
 <a class="link" href="{% url 'feed' %}">View Your Friends and Their Posts</a>
 <a class="link" href="{% url 'friend_suggest' %}">Make New Friends</a>
 {% endif %}
+{% endif %}
+
+
 
 {% if profiles.pfp %}
   <img class="profile-pic" src="{{ profiles.pfp.url }}" alt="{{ profiles.first_name }}'s profile picture" style="width:90px; height:110px;">
@@ -88,8 +93,12 @@ h2 {
         <p class="book-review-text">{{ review.review }}</p>
 
         {% if request.user.is_authenticated %}
+        {% if request.user == profiles.user %}
+
         <a href="{% url 'delete' review.pk %}">Delete Review</a>
         {% endif %}
+        {% endif %}
+
 
         {% endif %}
 

@@ -9,12 +9,10 @@ class MakeProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ['first_name', 'last_name', 'email', 'pfp']
 
-class BookSelectionForm(forms.ModelForm):
-    '''A form to add a book to the database'''
 
-    class Meta:
-        model = Book
-        fields = ['title', 'author', 'book_cover', 'genre', 'pages'] 
+#https://docs.djangoproject.com/en/5.2/topics/forms/
+#https://docs.djangoproject.com/en/5.2/ref/forms/widgets/
+
 
 class UpdateBookForm(forms.ModelForm):
     '''A form to update info abt a book in the database'''
@@ -25,6 +23,14 @@ class UpdateBookForm(forms.ModelForm):
 
 class ReviewForm(forms.ModelForm):
     '''A form to add a review to the database'''
+
+    #https://docs.djangoproject.com/en/3.0/ref/models/fields/#django.db.models.Field.choices
+    #ensures that there's a drop down of rating from 1-5 stars
+
+    stars = [(i, str(i)) for i in range(1, 6)]
+
+    #set 1-5 as choices
+    rating = forms.ChoiceField(choices=stars, widget=forms.Select)
 
     class Meta:
         model = Review
