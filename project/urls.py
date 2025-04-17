@@ -22,7 +22,7 @@ urlpatterns = [
     path('profile/feed/', ShowFeedView.as_view(), name='feed'),
     #path('profile/search/', PickBookView.as_view(), name='pick_book'),
 
-
+    path('profile/review/<int:pk>/update/', UpdateReviewView.as_view(), name='update'),
 
 
     path('login/', auth_views.LoginView.as_view(template_name='project/login.html'), name='login'), ## NEW

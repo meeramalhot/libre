@@ -1,19 +1,57 @@
 <!-- project/templates/project/delete_review.html -->
 {% extends 'project/base.html' %}
 
+
 {% block content %}
 
-<h3>Are you sure you want to delete this review?</h3>
+<style>
+    .review {
+        text-align: center;
+    }
 
-{{review}}
+    h2 {
+        color: #dd236a; 
+    }
 
-<form method='POST'>
-    {% csrf_token %}
-    <input type='submit' value="Delete">
-</form>
+    .rev-title {
+        font-weight: bold;
+    }
 
-<form action="{% url 'show_profile' review.profile.pk %}" method='GET' >
-    {% csrf_token %}
-    <input type='submit' value="Cancel">
-</form>
+    .button-container {
+        text-align: center;
+        margin-top: 1rem;
+    }
+    .button-container form {
+        display: inline-block;
+        margin: 0 0.5rem;
+        padding-bottom: 9vh;
+    }
+
+    .review-content {
+        padding-bottom: 6vh;
+    }
+
+</style>
+
+<h2>Are you sure you want to delete this review?</h2>
+
+<div class="review">
+   <p class = "rev-title">{{review}} </p> <br>
+    <p class="review-content">{{review.review}}</p>
+
+</div>
+
+<div class="button-container">
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Delete">
+
+
+    </form>
+    <form action="{% url 'show_profile' review.profile.pk %}" method="GET">
+ {% csrf_token %}
+        <input type="submit" value="Cancel">
+    </form>
+</div>
+
 {% endblock %}

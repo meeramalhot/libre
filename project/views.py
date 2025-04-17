@@ -162,3 +162,17 @@ class ShowFeedView(LoginRequiredMixin, DetailView):
     def get_object(self):
         return UserProfile.objects.get(user=self.request.user)
 
+
+class UpdateReviewView(LoginRequiredMixin, UpdateView):
+    model = Review
+    form_class = UpdateReviewForm
+    template_name = 'project/update_review_form.html'
+    context_object_name = 'review'
+
+    def get_queryset(self):
+        user_profile = UserProfile.objects.get(user=self.request.user)
+        return Review.objects.filter(profile=user_profile)
+
+    def get_success_url(self):
+        return reverse('show_profile', kwargs={'pk': self.object.profile.pk})
+

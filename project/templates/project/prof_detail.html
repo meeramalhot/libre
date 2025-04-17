@@ -58,7 +58,7 @@ h2 {
 {% if request.user.is_authenticated %}
     {% if request.user == profiles.user %}
 
-<a class="link" href="{% url 'pick_book' %}">Review A New Book</a>
+<a class="link" href="{% url 'home' %}">Review A New Book</a>
 <a class="link" href="{% url 'feed' %}">View Your Friends and Their Posts</a>
 <a class="link" href="{% url 'friend_suggest' %}">Make New Friends</a>
 {% endif %}
@@ -94,8 +94,8 @@ h2 {
 
         {% if request.user.is_authenticated %}
         {% if request.user == profiles.user %}
-
-        <a href="{% url 'delete' review.pk %}">Delete Review</a>
+        <a class="up" href="{% url 'update' review.pk %}">Update Review</a>
+        <a class="up" href="{% url 'delete' review.pk %}">Delete Review</a>
         {% endif %}
         {% endif %}
 
