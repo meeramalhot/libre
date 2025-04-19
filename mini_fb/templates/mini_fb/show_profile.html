@@ -57,7 +57,7 @@
 
     {% if request.user == profiles.user %}
 
-    <a href="{% url 'update' status.pk %}">Update this status</a>
+    <a class="update" href="{% url 'update' status.pk %}">Update this status</a>
     <a href="{% url 'delete' status.pk %}">Delete this status</a>
     {% endif %}
 
