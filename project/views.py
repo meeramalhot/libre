@@ -190,8 +190,13 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
         # get books reviewed by this profile
         books = Book.objects.filter(review__profile=profile)
 
+        book_counts=0
+        book_pages_sum=0
         genre_counts = {}
         for book in books:
+            #used later for stats
+            book_counts+=1
+            book_pages_sum += book.pages
             genre = book.genre
             #use dict to add up counts
             genre_counts[genre] = genre_counts.get(genre, 0) + 1
@@ -236,6 +241,12 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
                                          output_type="div")
 
         context['books_year'] = books_year
+        
+        average = book_pages_sum/book_counts
+        #get average with trailing of only 2
+        context['average'] = float(f"{average:.2f}")
+        top_reviews = Review.objects.filter(profile=profile).order_by("-rating", "-date_finished")[:3]
+        
 
         return context
     
