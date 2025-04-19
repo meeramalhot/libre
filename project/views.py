@@ -245,8 +245,21 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
         average = book_pages_sum/book_counts
         #get average with trailing of only 2
         context['average'] = float(f"{average:.2f}")
-        top_reviews = Review.objects.filter(profile=profile).order_by("-rating", "-date_finished")[:3]
-        
+
+        #get top read books
+        total_review_count = Review.objects.filter(profile=profile).count() 
+        context['total_review_count'] = total_review_count
+        if (total_review_count >= 3):
+            rev_one = Review.objects.filter(profile=profile).order_by("-rating", "-date_finished")[0]
+            context['rev_one'] = rev_one.book
+            rev_two = Review.objects.filter(profile=profile).order_by("-rating", "-date_finished")[1]
+            context['rev_two'] = rev_two.book
+            rev_three = Review.objects.filter(profile=profile).order_by("-rating", "-date_finished")[2]
+            context['rev_three'] = rev_three.book
+
+
+
+
 
         return context
     

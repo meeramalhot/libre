@@ -13,7 +13,10 @@
   <p>Stats</p>
 
   <p>Average Pages Read: {{average}}</p>
-  <p>🥇</p>
-  <p>🥈</p>
-  <p>🥉</p>
+
+  {% if total_review_count >= 3 %}
+  <p>🥇 {{ rev_one }}</p>
+  <p>🥈 {{ rev_two }}</p>
+  <p>🥉 {{ rev_three }}</p>
+  {% endif %}
 {% endblock %}
