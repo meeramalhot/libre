@@ -10,6 +10,8 @@ from django.contrib.auth import login # NEW
 from django.contrib.auth.views import LoginView  # NEW
 from .forms import *
 from django.utils import timezone
+import plotly
+import plotly.graph_objs as go
 
 
 
@@ -175,4 +177,40 @@ class UpdateReviewView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('show_profile', kwargs={'pk': self.object.profile.pk})
+    
+class UserAnalyticsView(LoginRequiredMixin, DetailView):
+    model = UserProfile
+    template_name = 'project/analytics.html'
+    context_object_name = 'profile'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile = context['profile']
+
+        # get books reviewed by this profile
+        books = Book.objects.filter(review__profile=profile)
+
+        genre_counts = {}
+        for book in books:
+            genre = book.genre
+            #use dict to add up counts
+            genre_counts[genre] = genre_counts.get(genre, 0) + 1
+
+        labels = list(genre_counts.keys())
+
+
+        values = [genre_counts[genre] for genre in labels]
+
+        pie_chart = go.Pie(labels=labels, values=values)
+        title_text = f"Your Genre Breakdown"
+
+        genre_pie = plotly.offline.plot({"data": [pie_chart], 
+                                         "layout_title_text": title_text,
+                                         }, 
+                                         auto_open=False, 
+                                         output_type="div")
+
+
+        context['genre_pie'] = genre_pie
+        return context
 

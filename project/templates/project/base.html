@@ -26,6 +26,7 @@
             {% if profile %}
 
             <li><a href="{% url 'show_profile' profile.pk %}">My Profile</a></li>
+            <li><a href="{% url 'analytics' profile.pk %}">My Analytics</a></li>
             {% endif %}
 
 
