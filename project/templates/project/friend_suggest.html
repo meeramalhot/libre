@@ -8,22 +8,42 @@
     {% block content %}
 
     <style>
-      img {
-        margin: auto;
+
+      .back {
+        text-decoration: none;
+        background-color: pink;
+        padding: 8px;
+        border-radius: 9px;
+        color: #dd236a;
+      }
+
+      .name, .name:visited {
+        text-decoration: none;
+        color: #dd236a;
+      }
+
+      .friends {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
 
     </style>
       <h2 style="color: #dd236a;">People You May Know...</h2>
-        
+      <p style="text-align: center; "><a class="back" href="{% url 'show_profile' profile.pk %}">Back to Profile</a></p><br>
+
+      <div class="friends">
       {% if profile.get_friend_suggestions %}
           {% for suggestion in profile.get_friend_suggestions %}
-    
-          <img src="{{ suggestion.pfp.url }}" style="width:150px;height:200px;"><br>
-    
           <a href="{% url 'show_profile' suggestion.pk %}">
-                {{ suggestion.first_name }} {{ suggestion.last_name }}<br>
-              </a> <br>
-              <a href="{% url 'add_friend' suggestion.pk %}"> Click here to add {{ suggestion.first_name }} as a friend</a> <br><br>
+
+          <img class="profile-pic" src="{{ suggestion.pfp.url }}" style="width:150px;height:200px;">
+        </a>
+    
+              <p class="name">{{ suggestion.first_name }} {{ suggestion.last_name }}</p>
+              <a class="back" href="{% url 'add_friend' suggestion.pk %}"> Click here to add {{ suggestion.first_name }} as a friend</a> 
+              <br><br>
       
           {% endfor %}
       {% else %}
@@ -31,7 +51,6 @@
       
       
         {% endif %}
-    
-      <p><a href="{% url 'show_profile' profile.pk %}">Return to profile</a></p>
+      </div>
     {% endblock %}
     
