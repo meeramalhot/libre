@@ -197,8 +197,6 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
             genre_counts[genre] = genre_counts.get(genre, 0) + 1
 
         labels = list(genre_counts.keys())
-
-
         values = [genre_counts[genre] for genre in labels]
 
         pie_chart = go.Pie(labels=labels, values=values)
@@ -210,7 +208,35 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
                                          auto_open=False, 
                                          output_type="div")
 
-
         context['genre_pie'] = genre_pie
+
+        reviews = Review.objects.filter(profile=profile)
+
+        #check books per year
+        year_counts = {}
+        for review in reviews:
+            if review.date_finished:
+                year = review.date_finished.year
+                year_counts[year] = year_counts.get(year, 0) + 1
+
+        sorted_years = sorted(year_counts)
+        x = sorted_years
+        y = [year_counts[year] for year in sorted_years]
+
+        x = [str(x) for x in sorted_years]
+
+
+        bar_chart = go.Bar(x=x, y=y)
+        title_text = f"Books Read Per Year"
+
+        books_year = plotly.offline.plot({"data": [bar_chart], 
+                                         "layout_title_text": title_text,
+                                         }, 
+                                         auto_open=False, 
+                                         output_type="div")
+
+        context['books_year'] = books_year
+
         return context
+    
 

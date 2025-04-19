@@ -1,8 +1,12 @@
 {% extends 'project/base.html' %}
 
 {% block content %}
-  <h2 style="text-align: center;">{{ profile.first_name }}'s Analytics Page</h2>
+  <h2 style="text-align: center; color: #dd236a">{{ profile.first_name }}'s Analytics Page</h2>
   <div>
     {{ genre_pie|safe }}
+  </div>
+
+  <div>
+    {{ books_year|safe }}
   </div>
 {% endblock %}
