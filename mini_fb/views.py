@@ -97,7 +97,7 @@ class CreateArticleView(CreateView):
         return reverse('login')
 
 
-class CreateStatusMessageView(LoginRequiredMixin, CreateView):
+class CreateStatusMessage(LoginRequiredMixin, CreateView):
     '''A view to handle creation of a new Comment on an Article.'''
 
     form_class = CreateStatusMessageForm

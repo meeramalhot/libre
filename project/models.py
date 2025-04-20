@@ -110,7 +110,7 @@ class Book(models.Model):
     author = models.TextField(blank=True)
     book_cover = models.ImageField(blank=True) # an actual image
     genre = models.TextField(blank=True)
-    pages = models.IntegerField(blank=True)
+    pages = models.IntegerField(blank=False)
 
     def __str__(self):
         '''Return a string representation of this book object.'''

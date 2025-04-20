@@ -178,6 +178,84 @@ class UpdateReviewView(LoginRequiredMixin, UpdateView):
     def get_success_url(self):
         return reverse('show_profile', kwargs={'pk': self.object.profile.pk})
     
+
+class BookUploadView(LoginRequiredMixin, CreateView):
+    '''A view to handle creation of a new Comment on an Article.'''
+
+    form_class = UploadBookForm
+    template_name = "project/book_upload.html"
+
+    def get_success_url(self):
+        '''Provide a URL to redirect to after creating a new status message.'''
+        return reverse('review_upload')
+    
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+        context = super().get_context_data(**kwargs)
+
+        profile = UserProfile.objects.get(user=self.request.user)
+        context['profile'] = profile
+        return context
+    
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
+    
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
+
+    def form_valid(self, form):
+        '''This method handles the form submission
+        '''
+        print(form.cleaned_data)
+        user = self.request.user
+        print(f"CreateStatusMessage user={user}")
+
+        # delegate the work to the superclass method form_valid:
+        return super().form_valid(form)
+    
+
+class ReviewUploadView(LoginRequiredMixin, CreateView):
+    '''A view to handle creation of a new Comment on an Article.'''
+
+    form_class = ReviewForm
+    template_name = "project/review_upload.html"
+
+    def get_success_url(self):
+        '''Provide a URL to redirect to after creating a new status message.'''
+        profile = UserProfile.objects.get(user=self.request.user)
+        return reverse('show_profile', kwargs={'pk': profile.pk})
+    
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+        context = super().get_context_data(**kwargs)
+
+        profile = UserProfile.objects.get(user=self.request.user)
+        context['profile'] = profile
+        return context
+    
+    def get_login_url(self) -> str:
+        '''return the URL required for login'''
+        return reverse('login')
+    
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
+
+    def form_valid(self, form):
+        '''This method handles the form submission and sa{% url 'show_profile' profile.pk %}ves the new object to the Django database.
+        We need to add the foreign key (of the Article) to the Comment object before saving it to the database
+        '''
+        print(form.cleaned_data)
+        #dont add to db, manually add some info
+        review = form.save(commit=False)
+
+        review.profile = UserProfile.objects.get(user=self.request.user)
+        review.date_finished = timezone.now()
+        #add to db
+        review.save()
+        return super().form_valid(form)
+
+
 class UserAnalyticsView(LoginRequiredMixin, DetailView):
     model = UserProfile
     template_name = 'project/analytics.html'

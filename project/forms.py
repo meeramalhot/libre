@@ -14,7 +14,7 @@ class MakeProfileForm(forms.ModelForm):
 #https://docs.djangoproject.com/en/5.2/ref/forms/widgets/
 
 
-class UpdateBookForm(forms.ModelForm):
+class UploadBookForm(forms.ModelForm):
     '''A form to update info abt a book in the database'''
 
     class Meta:
@@ -34,7 +34,7 @@ class ReviewForm(forms.ModelForm):
 
     class Meta:
         model = Review
-        fields = ['review', 'rating', 'date_finished']
+        fields = ['review', 'rating', 'book']
 
 class UpdateReviewForm(forms.ModelForm):
     '''A form to update a review'''

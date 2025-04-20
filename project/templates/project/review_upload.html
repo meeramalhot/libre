@@ -1,0 +1,15 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+
+<h1>Review Your Book</h1>
+
+<!-- form to write status and generate profile afterwards -->
+<form action="{% url 'review_upload' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" name="submit" value="Submit">
+</form>
+{% endblock %}

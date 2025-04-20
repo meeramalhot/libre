@@ -64,7 +64,7 @@
 {% if request.user.is_authenticated %}
     {% if request.user == profiles.user %}
 
-<a class="link" href="{% url 'home' %}">Review A New Book</a>
+<a class="link" href="{% url 'book_upload' %}">Review A New Book</a>
 <a class="link" href="{% url 'feed' %}">View Your Friends and Their Posts</a>
 <a class="link" href="{% url 'friend_suggest' %}">Make New Friends</a>
 {% endif %}
