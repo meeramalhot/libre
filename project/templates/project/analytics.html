@@ -1,6 +1,34 @@
 {% extends 'project/base.html' %}
 
 {% block content %}
+
+<style>
+  .stats-container {
+      text-align: center;
+      font-size: 2.7vh;
+}
+
+.stats-container h3 {
+  color: #dd236a;
+  font-size: 1.5rem;
+  margin-bottom: 2vh;
+}
+
+h4 {
+  color: #dd236a;
+  font-size: 1.5rem;
+}
+
+.stats-container p {
+  font-size: 3vh;
+  margin: 1vh 0;
+}
+
+.top-book {
+  color: #000000;
+}
+</style>
+
   <h2 style="text-align: center; color: #dd236a">{{ profile.first_name }}'s Analytics Page</h2>
   <div>
     {{ genre_pie|safe }}
@@ -10,13 +38,16 @@
     {{ books_year|safe }}
   </div>
 
-  <p>Stats</p>
+  <div class="stats-container">
+    <h3> Your Stats</h3>
+    <p class="">Average Pages Read: <strong>{{ average }}</strong></p>
+  
+    {% if total_review_count >= 3 %}
+    <h4>Your Top Reads</h4>
+      <p class="top-book">🥇 {{ rev_one }}</p>
+      <p class="top-book">🥈 {{ rev_two }} </p>
+      <p class="top-book">🥉 {{ rev_three }} </p>
+    {% endif %}
+  </div>
 
-  <p>Average Pages Read: {{average}}</p>
-
-  {% if total_review_count >= 3 %}
-  <p>🥇 {{ rev_one }}</p>
-  <p>🥈 {{ rev_two }}</p>
-  <p>🥉 {{ rev_three }}</p>
-  {% endif %}
 {% endblock %}
