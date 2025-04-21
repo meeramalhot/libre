@@ -5,6 +5,7 @@
 <style>
   h2 {
     color: #dd236a; 
+    font-size: 4vh;
   }
 
   .book-review {
@@ -43,9 +44,11 @@
       width: fit-content;
       margin: 0 auto 2vh auto;
       text-align: center;
-      background-color: #C9AEDC;;
-      color: #ffffff;
-      padding: 10px 20px;
+      color: #ff5858;
+      background-color: #fff7e5;
+      border-style: solid;
+      border-color: #dd236a;
+      padding: 4px 20px;
       border-radius: 5px;
       text-decoration: none;
   }
@@ -56,31 +59,42 @@
     font-size: 2vh;
   }
 
+  #first {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2vh;  
+  }
+
+
+
 </style>
 
 
 <h2 >{{ profiles.first_name }}'s Page</h2>
 
-{% if request.user.is_authenticated %}
-    {% if request.user == profiles.user %}
-
-<a class="link" href="{% url 'book_upload' %}">Review A New Book</a>
-<a class="link" href="{% url 'feed' %}">View Your Friends and Their Posts</a>
-<a class="link" href="{% url 'friend_suggest' %}">Make New Friends</a>
-{% endif %}
-{% endif %}
+  <div id="first">
+    {% if profiles.pfp %}
+      <img class="profile-pic" src="{{ profiles.pfp.url }}" alt="profile picture" style="width:120px; height:160px; padding-bottom: 2.4vh;">
+    {% endif %}
+  </div>
 
 
+      {% if request.user.is_authenticated %}
+          {% if request.user == profiles.user %}
 
-{% if profiles.pfp %}
-  <img class="profile-pic" src="{{ profiles.pfp.url }}" alt="{{ profiles.first_name }}'s profile picture" style="width:90px; height:110px;">
-{% endif %}
+      <a class="link" href="{% url 'book_upload' %}">Review A New Book</a>
+      <a class="link" href="{% url 'feed' %}">View Your Friends and Their Posts</a>
+      <a class="link" href="{% url 'friend_suggest' %}">Make New Friends</a><br>
+      {% endif %}
+      {% endif %}
+
+
+</div>
 
 
 
-<h2>{{ profiles.first_name }}'s Library</h2>
-
-
+<h2 style="margin-top: 7vh;">{{ profiles.first_name }}'s Library</h2>
 
 {% for book in profiles.get_books %}
   {% for review in book.get_reviews %}
