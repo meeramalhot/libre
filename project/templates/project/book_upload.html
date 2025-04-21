@@ -2,6 +2,26 @@
 
 {% block content %}
 
+<style>
+
+h1 {
+    color:#dd236a;
+    text-align: center;
+    padding-bottom: 2vh;
+}
+
+input {
+    margin-top: 2vh;
+    display: block;
+    margin: 0.5em auto;
+}
+
+.input-sub {
+    text-align: center;
+    padding-top: 5vh;
+}
+</style>
+
 <h1>Upload Your Book to Review</h1>
 
 <!-- form to write status and generate profile afterwards -->
@@ -10,6 +30,8 @@
     <table>
         {{ form.as_table }}
     </table>
-    <input type="submit" name="submit" value="Submit">
+    <div class="input-sub">
+        <input type="submit" name="submit" value="Submit">
+    </div>
 </form>
 {% endblock %}
