@@ -114,3 +114,16 @@ footer {
   font-weight: bold;
   text-align: center;
 }
+
+.nav-link-button {
+  background: none;
+  border: none;
+  color: #dd236a;
+  text-decoration: none;
+  border-radius: 50%;
+  font: inherit;
+}
+
+.nav-link-button:hover {
+  color: #ff9e5d;
+}
