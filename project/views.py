@@ -186,8 +186,8 @@ class BookUploadView(LoginRequiredMixin, CreateView):
     template_name = "project/book_upload.html"
 
     def get_success_url(self):
-        '''Provide a URL to redirect to after creating a new status message.'''
-        return reverse('review_upload')
+        '''Provide a URL to redirect to after creating a new book'''
+        return reverse('review_upload') + f'?book={self.object.pk}'
     
     def get_context_data(self, **kwargs):
         '''Return the dictionary of context variables for use in the template.'''
@@ -214,8 +214,9 @@ class BookUploadView(LoginRequiredMixin, CreateView):
         #CHECK TO ENSURE NO DUPLICATE BOOKS ARE ADDED
         #https://www.w3schools.com/django/django_ref_field_lookups.php
         #same as exact, but case-insensitive
-        if Book.objects.filter(title__iexact=title,
+        if Book.objects.filter(title__icontains=title,
                                author__iexact=author).exists():
+            print("hit duplicate case")
             return redirect(self.get_success_url())
 
         # delegate the work to the superclass method form_valid:
