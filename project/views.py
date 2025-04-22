@@ -208,8 +208,15 @@ class BookUploadView(LoginRequiredMixin, CreateView):
         '''This method handles the form submission
         '''
         print(form.cleaned_data)
-        user = self.request.user
-        print(f"CreateStatusMessage user={user}")
+        title  = form.cleaned_data["title"].strip()
+        author = form.cleaned_data["author"].strip()
+        
+        #CHECK TO ENSURE NO DUPLICATE BOOKS ARE ADDED
+        #https://www.w3schools.com/django/django_ref_field_lookups.php
+        #same as exact, but case-insensitive
+        if Book.objects.filter(title__iexact=title,
+                               author__iexact=author).exists():
+            return redirect(self.get_success_url())
 
         # delegate the work to the superclass method form_valid:
         return super().form_valid(form)
