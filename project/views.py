@@ -321,13 +321,19 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
         context['genre_pie'] = genre_pie
 
         reviews = Review.objects.filter(profile=profile)
-
+        rating_sum = 0
+        rating_count = 0
         #check books per year
         year_counts = {}
         for review in reviews:
+            rating_sum += review.rating 
+            rating_count += 1
             if review.date_finished:
                 year = review.date_finished.year
                 year_counts[year] = year_counts.get(year, 0) + 1
+        
+        avg_rating = rating_sum / rating_count
+        context['average_rating'] = float(f"{avg_rating:.2f}")
 
         sorted_years = sorted(year_counts)
         x = sorted_years
@@ -362,8 +368,7 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
             rev_three = Review.objects.filter(profile=profile).order_by("-rating", "-date_finished")[2]
             context['rev_three'] = rev_three.book
 
-
-
+        
 
 
         return context

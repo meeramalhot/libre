@@ -40,8 +40,9 @@ h4 {
 
   <div class="stats-container">
     <h3> Your Stats</h3>
-    <p class="">Average Pages Read: <strong>{{ average }}</strong></p>
-  
+    <p>Average Pages Read: <strong>{{ average }}</strong></p>
+    <p >Average Rating: <strong>{{ average_rating }}</strong></p>
+
     {% if total_review_count >= 3 %}
     <h4>Your Top Reads</h4>
       <p class="top-book">🥇 {{ rev_one }}</p>
