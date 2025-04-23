@@ -1,0 +1,58 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+<style>
+  .libre {
+    text-align: center;
+    font-size: 2.7vh;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  h1 {
+    text-align: center;
+    color: #dd236a;
+    padding-bottom: 3vh;
+  }
+
+  .sign-up {
+    padding-top: 30px;
+    padding-bottom: 20px;
+    padding-left: 47%;
+    padding-right: 40%;
+
+
+  }
+
+  .lib {
+    font-size: 8vh;
+    text-align: center;
+
+  }
+
+  
+</style>
+<h1>Welcome to Libre</h1>
+
+<p class="libre">
+  Welcome to Libre — your personal reading companion!
+  <p class="lib">
+    📚
+    </p>
+
+  <p class="libre">
+    At Libre, you can easily log the books you read, write reviews, and get analytics about your reading habits.
+
+  Track your progress with insights like: your genre breakdowns, the amount of books read per year,
+  your average pages read, and your favorite books. <br><br>
+  
+  But it’s not just about your own reading journey, Libre is a place where you can interact with other readers. You can make friends, see what they’re reading, and read their reviews to discover new favorites or spark conversations.
+  You can visit Libre’s Library, a growing collection of books from readers on the site, curated by readers like you. Discover what others are loving, find hidden gems, and figure out your next read :) <br><br>
+
+  Start your journey with Libre today, by signing up, and reviewing your first book! We look forward to see what you're reading.
+</p>
+
+<div class="sign-up">
+<a class="profile-name" style="text-decoration: none;" href="{% url 'create_profile' %}"> Sign Up Here </a>
+</div>
+  {% endblock %}

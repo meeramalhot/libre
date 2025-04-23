@@ -14,6 +14,17 @@ import plotly
 import plotly.graph_objs as go
 from django.http import HttpResponseRedirect
 
+class HomeView(TemplateView):
+    template_name = 'project/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+
+            profile = UserProfile.objects.get(user=self.request.user)
+            context['profile'] = profile
+
+        return context
 
 class ShowAllProfilesView(ListView):
     '''Create a subclass of ListView to display all blog profiles.'''

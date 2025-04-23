@@ -11,7 +11,7 @@ from django.contrib.auth import views as auth_views, logout    ## NEW
 
 
 urlpatterns = [
-    path('', ShowAllProfilesView.as_view(), name="profiles_all"),
+    path('', HomeView.as_view(), name="home"),
     path('books/', ShowAllBooksView.as_view(), name="books"),
     path('book/<int:pk>/', BookDetailView.as_view(), name='book'),
 
