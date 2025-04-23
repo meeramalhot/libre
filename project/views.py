@@ -171,6 +171,14 @@ class UpdateReviewView(LoginRequiredMixin, UpdateView):
     template_name = 'project/update_review_form.html'
     context_object_name = 'review'
 
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+        context = super().get_context_data(**kwargs)
+
+        profile = UserProfile.objects.get(user=self.request.user)
+        context['profile'] = profile
+        return context
+
     def get_queryset(self):
         user_profile = UserProfile.objects.get(user=self.request.user)
         return Review.objects.filter(profile=user_profile)
@@ -252,6 +260,7 @@ class ReviewUploadView(LoginRequiredMixin, CreateView):
     def get_object(self):
         return UserProfile.objects.get(user=self.request.user)
     
+    #ADD COMMENTS
     def get_initial(self):
         initial = super().get_initial()
         book_id = self.request.GET.get("book")
@@ -368,3 +377,29 @@ class ShowAllBooksView(ListView):
     model = Book
     template_name = 'project/books.html'
     context_object_name = 'books' # how to find the data in the template file
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+
+            profile = UserProfile.objects.get(user=self.request.user)
+            context['profile'] = profile
+
+        return context
+
+
+class BookDetailView(DetailView):
+    model = Book
+    template_name = 'project/book.html'
+    context_object_name = 'book'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+
+            profile = UserProfile.objects.get(user=self.request.user)
+            context['profile'] = profile
+
+        return context
