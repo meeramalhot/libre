@@ -12,7 +12,7 @@ from .forms import *
 from django.utils import timezone
 import plotly
 import plotly.graph_objs as go
-
+from django.http import HttpResponseRedirect
 
 
 class ShowAllProfilesView(ListView):
@@ -189,20 +189,12 @@ class BookUploadView(LoginRequiredMixin, CreateView):
         '''Provide a URL to redirect to after creating a new book'''
         return reverse('review_upload') + f'?book={self.object.pk}'
     
-    def get_context_data(self, **kwargs):
-        '''Return the dictionary of context variables for use in the template.'''
-        context = super().get_context_data(**kwargs)
-
-        profile = UserProfile.objects.get(user=self.request.user)
-        context['profile'] = profile
-        return context
-    
     def get_login_url(self) -> str:
         '''return the URL required for login'''
         return reverse('login')
     
-    def get_object(self):
-        return UserProfile.objects.get(user=self.request.user)
+    # def get_object(self):
+    #     return UserProfile.objects.get(user=self.request.user)
 
     def form_valid(self, form):
         '''This method handles the form submission
@@ -214,10 +206,13 @@ class BookUploadView(LoginRequiredMixin, CreateView):
         #CHECK TO ENSURE NO DUPLICATE BOOKS ARE ADDED
         #https://www.w3schools.com/django/django_ref_field_lookups.php
         #same as exact, but case-insensitive
-        if Book.objects.filter(title__icontains=title,
-                               author__iexact=author).exists():
+
+        #get the first dupicate so we can pass in a pk
+        duplicate = Book.objects.filter(title__icontains=title, author__iexact=author).first()
+        if duplicate:
             print("hit duplicate case")
-            return redirect(self.get_success_url())
+            url = reverse("review_upload") + f"?book={duplicate.pk}"
+            return HttpResponseRedirect(url)
 
         # delegate the work to the superclass method form_valid:
         return super().form_valid(form)
@@ -232,7 +227,7 @@ class ReviewUploadView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         '''Provide a URL to redirect to after creating a new status message.'''
         profile = UserProfile.objects.get(user=self.request.user)
-        return reverse('show_profile', kwargs={'pk': profile.pk})
+        return reverse('show_profile',  kwargs={'pk': profile.pk})
     
     def get_context_data(self, **kwargs):
         '''Return the dictionary of context variables for use in the template.'''
@@ -248,6 +243,13 @@ class ReviewUploadView(LoginRequiredMixin, CreateView):
     
     def get_object(self):
         return UserProfile.objects.get(user=self.request.user)
+    
+    def get_initial(self):
+        initial = super().get_initial()
+        book_id = self.request.GET.get("book")
+        if book_id and Book.objects.filter(pk=book_id).exists():
+            initial["book"] = book_id
+        return initial
 
     def form_valid(self, form):
         '''This method handles the form submission and sa{% url 'show_profile' profile.pk %}ves the new object to the Django database.

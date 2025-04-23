@@ -16,6 +16,7 @@ class MakeProfileForm(forms.ModelForm):
 
 class UploadBookForm(forms.ModelForm):
     '''A form to update info abt a book in the database'''
+    #https://stackoverflow.com/questions/604266/django-set-default-form-values
 
     class Meta:
         model = Book
@@ -35,6 +36,7 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['review', 'rating', 'book']
+
 
 class UpdateReviewForm(forms.ModelForm):
     '''A form to update a review'''
