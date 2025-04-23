@@ -360,3 +360,11 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
         return context
     
 
+
+
+class ShowAllBooksView(ListView):
+    '''Create a subclass of Books to display all BOOK profiles.'''
+
+    model = Book
+    template_name = 'project/books.html'
+    context_object_name = 'books' # how to find the data in the template file

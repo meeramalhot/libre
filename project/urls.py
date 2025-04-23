@@ -12,6 +12,8 @@ from django.contrib.auth import views as auth_views, logout    ## NEW
 
 urlpatterns = [
     path('', ShowAllProfilesView.as_view(), name="profiles_all"),
+    path('books/', ShowAllBooksView.as_view(), name="books"),
+
     path('profiles/', ShowAllProfilesView.as_view(), name='profiles_all'),
     path('profile/<int:pk>/', ProfileDetailView.as_view(), name='show_profile'),
     path('profile/book_upload', BookUploadView.as_view(), name="book_upload"),

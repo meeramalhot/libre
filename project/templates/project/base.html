@@ -21,7 +21,7 @@
         <ul>
           <li><a href="{% url 'profiles_all' %}">Home</a></li>
           <li><a href="{% url 'profiles_all' %}">Profiles</a></li>
-
+          <li><a href="{% url 'books' %}">Library</a></li>
           {% if request.user.is_authenticated %}
             {% if profile %}
 
