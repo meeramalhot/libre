@@ -1,0 +1,108 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+
+<style>
+  h2 {
+    color: #dd236a;
+    font-size: 4vh;
+    text-align: center;
+    margin-top: 4vh;
+  }
+
+  .book-header   {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3vh;
+  }
+
+  .book-cover {
+    padding-top: 20px;
+    margin: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .book-cover img {
+    height: 250px;
+    width: auto;
+  }
+
+  .book-info {
+    text-align: center;
+  }
+
+  .reviews-section {
+    margin-top: 5vh;
+  }
+
+  .book-review {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 3vh;
+    border-bottom: 1px solid #ffb7b7;
+
+    padding-bottom: 2vh;
+  }
+
+  .review-content {
+    flex: 1;
+  }
+
+  .book-title {
+    font-weight: bold;
+    font-size: 2.7vh;
+    margin-bottom: 0.5vh;
+  }
+
+  .book-rating {
+    margin: 1vh 0;
+    font-size:2.4vh;
+
+  }
+
+  .book-review-text {
+    font-size: 2.5vh;
+    margin-bottom: 1vh;
+  }
+
+  .profile {
+    width: 85px;
+    height: 115px; 
+    object-fit: cover ; 
+    border-radius: 50%;
+    padding-right: 10px;
+  }
+</style>
+
+  <div class="book-info">
+    <h2>{{ book.title }} by {{ book.author }}</h2>
+    Genre: {{ book.genre }} <br>
+    {{ book.pages }} Pages
+    </div>
+
+    <div class="book-cover">
+      {% if book.book_cover %}
+        <img src="{{ book.book_cover.url }}" alt="book cover">
+      {% endif %}
+    </div>
+
+<div class="reviews-section">
+  <h2>Reviews</h2>
+
+  {% for r in book.get_reviews %}
+    <div class="book-review">
+      <img class="profile" src="{{ r.profile.pfp.url }}">
+      <div class="review-content">
+
+        <p class="book-title">{{ r.profile.first_name }} {{ r.profile.last_name }}</p>
+            <p class="book-rating">Rating: {{ r.rating }} ⭐</p>
+        <p class="book-review-text">{{ r.review }}</p>
+      </div>
+    </div>
+
+  {% endfor %}
+</div>
+
+{% endblock %}
