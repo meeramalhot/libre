@@ -193,8 +193,17 @@ class BookUploadView(LoginRequiredMixin, CreateView):
         '''return the URL required for login'''
         return reverse('login')
     
-    # def get_object(self):
-    #     return UserProfile.objects.get(user=self.request.user)
+    def get_context_data(self, **kwargs):
+        '''Return the dictionary of context variables for use in the template.'''
+        context = super().get_context_data(**kwargs)
+
+        profile = UserProfile.objects.get(user=self.request.user)
+        context['profile'] = profile
+        return context
+    
+    
+    def get_object(self):
+        return UserProfile.objects.get(user=self.request.user)
 
     def form_valid(self, form):
         '''This method handles the form submission
@@ -206,8 +215,7 @@ class BookUploadView(LoginRequiredMixin, CreateView):
         #CHECK TO ENSURE NO DUPLICATE BOOKS ARE ADDED
         #https://www.w3schools.com/django/django_ref_field_lookups.php
         #same as exact, but case-insensitive
-
-        #get the first dupicate so we can pass in a pk
+        #get the first dupicate so we can pass in a book for redirect
         duplicate = Book.objects.filter(title__icontains=title, author__iexact=author).first()
         if duplicate:
             print("hit duplicate case")
