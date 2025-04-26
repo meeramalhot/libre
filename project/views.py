@@ -454,17 +454,11 @@ class SuggestionView(LoginRequiredMixin, ListView):
         return all_genres, top_genres
 
 
-
     def get_context_data(self, **kwargs):
-
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
 
             profile = UserProfile.objects.get(user=self.request.user)
             context['profile'] = profile
 
-        all_genres, top_genres = self.get_genres()
-
-
-        
         return context
