@@ -379,13 +379,8 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
             rev_three = Review.objects.filter(profile=profile).order_by("-rating", "-date_finished")[2]
             context['rev_three'] = rev_three.book
 
-        
-
 
         return context
-    
-
-
 
 class ShowAllBooksView(ListView):
     '''Create a subclass of Books to display all BOOK profiles.'''
@@ -419,4 +414,57 @@ class BookDetailView(DetailView):
             profile = UserProfile.objects.get(user=self.request.user)
             context['profile'] = profile
 
+        return context
+    
+
+class SuggestionView(LoginRequiredMixin, ListView):
+    model = Book
+    template_name = 'project/get_suggestions.html'
+    context_object_name = 'book'
+
+    def get_genres(self):
+        """return a qs of all distinct genres this user has read."""
+        books = Book.objects.filter(review__profile=self)
+
+        if not books.exists():
+            return [], []  
+    
+        genre_counts = {}
+
+        for book in books:
+            genre = book.genre
+            genre_counts[genre] = genre_counts.get(genre, 0) + 1
+
+        all_genres = list(genre_counts.keys())
+        top_genres = []
+
+        #check if all genres is longer than three to get top three
+        if len(all_genres) <= 3:
+            top_genres = all_genres
+        else:
+            # sorting values in descending order
+            output = dict(sorted(all_genres.items(), key=lambda item: item[1], reverse=True))
+
+            for genre in output:
+                top_genres.append(genre)
+                #only get the top three
+                if len(top_genres) == 3:
+                    break
+
+        return all_genres, top_genres
+
+
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+
+            profile = UserProfile.objects.get(user=self.request.user)
+            context['profile'] = profile
+
+        all_genres, top_genres = self.get_genres()
+
+
+        
         return context

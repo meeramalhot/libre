@@ -120,7 +120,6 @@ class Book(models.Model):
         '''Return a queryset of reviews related to a particular book'''
         reviews = Review.objects.filter(book=self)
         return reviews
-    
 
 
 class Review(models.Model):
