@@ -437,22 +437,22 @@ class SuggestionView(LoginRequiredMixin, ListView):
             genre_counts[genre] = genre_counts.get(genre, 0) + 1
 
         all_genres = list(genre_counts.keys())
-        top_genres = []
+        #top_genres = []
 
-        #check if all genres is longer than three to get top three
-        if len(all_genres) <= 3:
-            top_genres = all_genres
-        else:
-            # sorting values in descending order
-            output = dict(sorted(genre_counts.items(), key=lambda item: item[1], reverse=True))
+        # #check if all genres is longer than three to get top three
+        # if len(all_genres) <= 3:
+        #     top_genres = all_genres
+        # else:
+        #     # sorting values in descending order
+        #     output = dict(sorted(genre_counts.items(), key=lambda item: item[1], reverse=True))
 
-            for genre in output:
-                top_genres.append(genre)
-                #only get the top three
-                if len(top_genres) == 3:
-                    break
+        #     for genre in output:
+        #         top_genres.append(genre)
+        #         #only get the top three
+        #         if len(top_genres) == 3:
+        #             break
 
-        return all_genres, top_genres
+        return all_genres
 
 
     def get_context_data(self, **kwargs):
@@ -461,13 +461,30 @@ class SuggestionView(LoginRequiredMixin, ListView):
 
             profile = UserProfile.objects.get(user=self.request.user)
             context['profile'] = profile
+            
+            #get suggestions from what friends read not including your reads
+            suggestions = Book.objects.filter(review__profile__in=profile.get_friends()).exclude(review__profile=profile).distinct()
+            
+            #get reccomendations based on the genres you read
+            all_genres = self.get_genres()
+            genre_books = Book.objects.filter(genre__in=all_genres).exclude(review__profile=profile).distinct()
 
-            all_genres, top_genres = self.get_genres()
-        
-            has_read = Book.objects.filter(review__profile=profile)
+            #slice by 5 all of the query sets so doesnt give too many reccommendations
 
-            if len(top_genres) > 0:
-                sug = Book.objects.filter(review__profile=self, genre__in=top_genres).exclude(has_read)
-                context['sug'] = sug
+            #top recs are what your friends read and genres you like
+            top_recs = suggestions & genre_books
+            if top_recs.count() > 5:
+                top_recs = top_recs[:5]
+
+            context["top_recs"] = top_recs
+
+            #cannot slice before anding
+            if genre_books.count() > 5:
+                genre_books =  genre_books[:5]
+            context["genre_books"] = genre_books
+
+            if suggestions.count() > 5:
+                suggestions = suggestions[:5]
+            context["suggestions"] = suggestions
 
         return context

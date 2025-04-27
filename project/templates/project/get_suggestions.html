@@ -1,18 +1,46 @@
 {% extends "project/base.html" %}
-{% load static %}
-{% if sug %}
-{% for book in sug %}
+
+{% block content %}
+  {% if top_recs %}
+    <h2>Our Top Recs For You</h2>
+    <ul>  {% for book in top_recs %}
+        <li>
+          <a href="{% url 'book' book.pk %}">{{ book.title }} by {{ book.author }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+
+  
+  {% endif %}
+
+  {% if suggestions %}
+    <h2>Book Recs Based On Your Friends</h2>
+    <ul>
+      
+      {% for book in suggestions %}
+        <li>
+          <a href=  "{% url 'book' book.pk %}">{{ book.title }} by {{ book.author }} </a>
+        </li>
+      {% endfor %}
+        </ul>
+  {% else %}
+
+    <p>No suggestions yet! Try adding friends!</p>
+  {% endif %}
+
+  {% if genre_books %}
+    <h2>Book Recs Based On Your Favorite Genres</h2>
+          <ul> {% for book in genre_books %}
+          <li>
+          <a href="{% url 'book' book.pk %}">
+            {{ book.title }} by {{ book.author }}</a>
+        </li>
 
 
-<li>
-  <a href="{% url 'book' book.pk %}">
-    {{ book.title }} <em>by</em> {{ book.author }}
-  </a>
-
-  {% endfor %}
-</ul>
-{% else %}
-<p>No recommendations yet, read and rate a few titles to get started!</p>
-{% endif %}
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No suggestions yet! Try reviewing some more books!   </p>
+  {% endif %}
 
 {% endblock %}
