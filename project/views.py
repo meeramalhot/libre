@@ -424,7 +424,8 @@ class SuggestionView(LoginRequiredMixin, ListView):
 
     def get_genres(self):
         """return a qs of all distinct genres this user has read."""
-        books = Book.objects.filter(review__profile=self)
+        profile = UserProfile.objects.get(user=self.request.user)
+        books= Book.objects.filter(review__profile=profile) 
 
         if not books.exists():
             return [], []  
@@ -443,7 +444,7 @@ class SuggestionView(LoginRequiredMixin, ListView):
             top_genres = all_genres
         else:
             # sorting values in descending order
-            output = dict(sorted(all_genres.items(), key=lambda item: item[1], reverse=True))
+            output = dict(sorted(genre_counts.items(), key=lambda item: item[1], reverse=True))
 
             for genre in output:
                 top_genres.append(genre)
@@ -460,5 +461,13 @@ class SuggestionView(LoginRequiredMixin, ListView):
 
             profile = UserProfile.objects.get(user=self.request.user)
             context['profile'] = profile
+
+            all_genres, top_genres = self.get_genres()
+        
+            has_read = Book.objects.filter(review__profile=profile)
+
+            if len(top_genres) > 0:
+                sug = Book.objects.filter(review__profile=self, genre__in=top_genres).exclude(has_read)
+                context['sug'] = sug
 
         return context

@@ -1,2 +1,18 @@
 {% extends "project/base.html" %}
 {% load static %}
+{% if sug %}
+{% for book in sug %}
+
+
+<li>
+  <a href="{% url 'book' book.pk %}">
+    {{ book.title }} <em>by</em> {{ book.author }}
+  </a>
+
+  {% endfor %}
+</ul>
+{% else %}
+<p>No recommendations yet, read and rate a few titles to get started!</p>
+{% endif %}
+
+{% endblock %}
