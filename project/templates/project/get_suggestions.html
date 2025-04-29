@@ -11,7 +11,8 @@
   h2 {
     color: #dd236a;
   }
-  li a {
+
+  .page-list a {
     color: #dd236a;
     margin-bottom: 2px;
     font-size: 2.7vh;
@@ -23,7 +24,7 @@
   {% if top_recs %}
     <h2>Our Top Recs For You</h2>
     <ul>  {% for book in top_recs %}
-        <li>
+        <li class="page-list">
           <a href="{% url 'book' book.pk %}">{{ book.title }} by {{ book.author }}</a>
         </li>
       {% endfor %}
@@ -37,7 +38,7 @@
     <ul>
       
       {% for book in suggestions %}
-        <li>
+      <li class="page-list">
           <a href=  "{% url 'book' book.pk %}">{{ book.title }} by {{ book.author }} </a>
         </li>
       {% endfor %}
@@ -51,7 +52,8 @@
 
     <h2>Book Recs Based On Your Favorite Genres</h2>
           <ul> {% for book in genre_books %}
-          <li>
+            <li class="page-list">
+
           <a href="{% url 'book' book.pk %}">
             {{ book.title }} by {{ book.author }}</a>
         </li>
