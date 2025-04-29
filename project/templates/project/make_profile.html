@@ -1,3 +1,8 @@
+<!-- author: meera malhotra
+    date: 4/17
+    description: page to create and save a profile
+    project/templates/project/make_profile.html -->
+
 <style>
     h1 {
         color:#dd236a;
@@ -31,7 +36,7 @@
     {% block content %}
     
     <h1> Create a New Profile</h1>
-    <!-- form to write profile and generate profile page afterwards -->
+    <!-- form to create profile and generate profile page afterwards -->
     
     <form action="{% url 'make_profile' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}

@@ -1,4 +1,8 @@
-<!-- project/templates/base.html -->
+<!-- author: meera malhotra
+    date: 4/17
+    description: login page
+    project/templates/project/login.html -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
@@ -79,9 +83,7 @@
 <form method="post" action="{% url 'login' %}" >
     {% csrf_token %}
     {{form}}
-    <!-- This basic login form works, but after login in
-     assumed the existance of a page at /registration/profile, which
-     does not exist.  -->
+    <!-- login and redirect to all profiles  -->
      {% if request.GET.next %}
      <input type="hidden" name="next" value="{{request.GET.next}}">
      {% else %}

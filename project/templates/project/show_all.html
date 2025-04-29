@@ -1,6 +1,13 @@
+ <!-- author: meera malhotra
+    date: 4/17
+    description: page with every profile
+    project/templates/project/show_all.html -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
+
+<!-- use a loop to go through every profile and display basic info  -->
 <div>
   <table>
     <tr>
@@ -14,7 +21,6 @@
         <a href="{% url 'show_profile' p.pk %}">
           {% if p.pfp %}
           <img class="profile-pic" src="{{ p.pfp.url }}" alt="{{ p.first_name }}'s profile picture" style="width:75px; height:90px;">
-            <!-- add a empty profile pic -->
           {% endif %}
         </a>
           

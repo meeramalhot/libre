@@ -1,3 +1,8 @@
+<!-- author: meera malhotra
+    date: 4/17
+    description: profile page
+    project/templates/project/prof_detail.html -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
@@ -79,7 +84,7 @@
     {% endif %}
   </div>
 
-
+<!-- only allow to upload see feed or make friends if user is authenticated -->
       {% if request.user.is_authenticated %}
           {% if request.user == profiles.user %}
 
@@ -95,7 +100,7 @@
 
 
 <h2 style="margin-top: 7vh;">{{ profiles.first_name }}'s Library</h2>
-
+<!-- get all reviews for a certain user -->
 {% for book in profiles.get_books %}
   {% for review in book.get_reviews %}
     {% if review.profile == profiles %}
@@ -111,6 +116,8 @@
 
         
         <p class="book-review-text">{{ review.review }}</p>
+
+        <!-- if a user is authenticated allow them to update or delete review -->
 
         {% if request.user.is_authenticated %}
         {% if request.user == profiles.user %}

@@ -1,3 +1,8 @@
+<!-- author: meera malhotra
+    date: 4/29
+    description: show book suggestions
+    project/templates/project/get_suggestions.html -->
+
 {% extends "project/base.html" %}
 
 {% block content %}
@@ -12,6 +17,9 @@
     font-size: 2.7vh;
   }
 </style>
+
+<!-- show recs based on friends, genres, or both (top recs) -->
+
   {% if top_recs %}
     <h2>Our Top Recs For You</h2>
     <ul>  {% for book in top_recs %}

@@ -30,10 +30,13 @@
       }
 
     </style>
+
+    <!-- show possible friends -->
       <h2 style="color: #dd236a;">People You May Know...</h2>
       <p style="text-align: center; "><a class="back" href="{% url 'show_profile' profile.pk %}">Back to Profile</a></p><br>
 
       <div class="friends">
+        <!-- if there are friends to show, display suggestions -->
       {% if profile.get_friend_suggestions %}
           {% for suggestion in profile.get_friend_suggestions %}
           <a href="{% url 'show_profile' suggestion.pk %}">
@@ -42,6 +45,7 @@
         </a>
     
               <p class="name">{{ suggestion.first_name }} {{ suggestion.last_name }}</p>
+              <!-- add as friend -->
               <a class="back" href="{% url 'add_friend' suggestion.pk %}"> Click here to add {{ suggestion.first_name }} as a friend</a> 
               <br><br>
       
