@@ -1,3 +1,8 @@
+<!-- author: meera malhotra
+    date: 4/10
+    description: a page to show analytics
+    project/templates/project/analytics.html -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
@@ -30,6 +35,8 @@ h4 {
 </style>
 
   <h2 style="text-align: center; color: #dd236a">{{ profile.first_name }}'s Analytics Page</h2>
+
+  <!-- render the graphs: genre pie graph and books read per year -->
   <div>
     {{ genre_pie|safe }}
   </div>

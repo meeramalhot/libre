@@ -1,3 +1,8 @@
+<!-- author: meera malhotra
+    date: 4/10
+    description: a page to show each particlar book view
+    project/templates/project/book.html -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
@@ -77,7 +82,7 @@
   }
   
 </style>
-
+<!-- get information about the book and display it  -->
   <div class="book-info">
     <h2>{{ book.title }} by {{ book.author }}</h2>
     Genre: {{ book.genre }} <br>
@@ -90,6 +95,7 @@
       {% endif %}
     </div>
 
+    <!-- get reviews of the book and render the reviewers name rating and review -->
 <div class="reviews-section">
   <h2>Reviews</h2>
   {% if book.get_reviews %}
@@ -106,6 +112,7 @@
     </div>
     {% endfor %}
 
+    <!-- some books have not been reviewed yet -->
     {% else %}
     <p style="text-align: center;">No reviews yet!</p>
 

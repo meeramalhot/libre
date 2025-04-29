@@ -246,7 +246,7 @@ class BookUploadView(LoginRequiredMixin, CreateView):
     
 
 class ReviewUploadView(LoginRequiredMixin, CreateView):
-    '''A view to handle creation of a new Comment on an Article.'''
+    '''A view to handle creation of a new review.'''
 
     form_class = ReviewForm
     template_name = "project/review_upload.html"

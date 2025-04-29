@@ -1,3 +1,8 @@
+<!-- author: meera malhotra
+    date: 4/10
+    description: a page to upload book and add to the database
+    project/templates/project/book_upload.html -->
+
 {% extends 'project/base.html' %}
 
 {% block content %}
@@ -24,7 +29,7 @@ input {
 
 <h1>Upload Your Book to Review</h1>
 
-<!-- form to write status and generate profile afterwards -->
+<!-- form to upload book and add to database, then take you to review with book autopopulated-->
 <form action="{% url 'book_upload' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <table>
