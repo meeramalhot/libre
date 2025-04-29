@@ -26,6 +26,7 @@ class UserProfile(models.Model):
         return f'{self.first_name} {self.last_name}'
     
     def get_reviews(self):
+        """Return reviews a user wrote"""
         revs = Review.objects.filter(profile=self)
         return revs
     
