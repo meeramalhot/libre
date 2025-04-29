@@ -15,9 +15,12 @@ import plotly.graph_objs as go
 from django.http import HttpResponseRedirect
 
 class HomeView(TemplateView):
+    '''basic view to just render homepage.'''
+
     template_name = 'project/home.html'
 
     def get_context_data(self, **kwargs):
+        #this is for the profile info in navbar
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
 
@@ -45,6 +48,7 @@ class ShowAllProfilesView(ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
+        #this is for the profile info in navbar
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
             try:
@@ -57,12 +61,14 @@ class ShowAllProfilesView(ListView):
 
 
 class ProfileDetailView(DetailView):
+    '''view for a specific profile'''
+
     model = UserProfile
     template_name = 'project/prof_detail.html'
     context_object_name = 'profiles'
 
     def get_context_data(self, **kwargs):
-
+        #this is for the profile info in navbar and if they can do operations like review upload delete etc
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
 
@@ -74,7 +80,7 @@ class ProfileDetailView(DetailView):
 class CreateProfileView(CreateView):
     '''A view to handle creation of a new profile.
     (1) display the HTML form to user (GET)
-    (2) process the form submission and store the new Article object (POST)
+    (2) process the form submission and store the new profile object (POST)
     '''
 
     form_class = MakeProfileForm
@@ -87,6 +93,7 @@ class CreateProfileView(CreateView):
         return context
     
     def form_valid(self, form):
+        """add user form and check if valid, if valid set time user joined and log them in"""
         user_form = UserCreationForm(self.request.POST)
         if user_form.is_valid():
                 new_user = user_form.save()
@@ -104,7 +111,7 @@ class CreateProfileView(CreateView):
 
 
 class DeleteReviewView(LoginRequiredMixin, DeleteView):
-    '''Allows u to delete a status message'''
+    '''Allows u to delete a review'''
 
     template_name = "project/delete_review.html"
     model = Review
@@ -129,6 +136,7 @@ class DeleteReviewView(LoginRequiredMixin, DeleteView):
     
 
 class AddFriendView(LoginRequiredMixin, View):
+    """logic to add a friend, interacts w db model"""
     def dispatch(self, request, *args, **kwargs):
 
         # dont use pk to get friend_one
@@ -150,6 +158,7 @@ class AddFriendView(LoginRequiredMixin, View):
     
 
 class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
+    """provides info to show possible friends"""
     model = UserProfile
     template_name = "project/friend_suggest.html"
     context_object_name = "profile"
@@ -163,13 +172,14 @@ class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
         return UserProfile.objects.get(user=self.request.user)
     
 class ShowFeedView(LoginRequiredMixin, DetailView):
+    """provides info for user's review feed"""
     model = UserProfile
     template_name = "project/feed.html"
     context_object_name = "profile"
 
         
     def get_login_url(self) -> str:
-        '''return the URL required for login'''
+        '''return the URL required for login if not loggied in'''
         return reverse('login')
     
     def get_object(self):
@@ -177,6 +187,7 @@ class ShowFeedView(LoginRequiredMixin, DetailView):
 
 
 class UpdateReviewView(LoginRequiredMixin, UpdateView):
+    """update review using the form_class"""
     model = Review
     form_class = UpdateReviewForm
     template_name = 'project/update_review_form.html'
@@ -190,6 +201,7 @@ class UpdateReviewView(LoginRequiredMixin, UpdateView):
         context['profile'] = profile
         return context
 
+    #get reviews of one logged in user
     def get_queryset(self):
         user_profile = UserProfile.objects.get(user=self.request.user)
         return Review.objects.filter(profile=user_profile)
@@ -199,13 +211,14 @@ class UpdateReviewView(LoginRequiredMixin, UpdateView):
     
 
 class BookUploadView(LoginRequiredMixin, CreateView):
-    '''A view to handle creation of a new Comment on an Article.'''
+    '''A view to handle creation of a new book'''
 
     form_class = UploadBookForm
     template_name = "project/book_upload.html"
 
     def get_success_url(self):
         '''Provide a URL to redirect to after creating a new book'''
+        #add book object so review form can autopopulate
         return reverse('review_upload') + f'?book={self.object.pk}'
     
     def get_login_url(self) -> str:
@@ -220,8 +233,8 @@ class BookUploadView(LoginRequiredMixin, CreateView):
         context['profile'] = profile
         return context
     
-    
     def get_object(self):
+        """get logged in user"""
         return UserProfile.objects.get(user=self.request.user)
 
     def form_valid(self, form):
@@ -231,10 +244,12 @@ class BookUploadView(LoginRequiredMixin, CreateView):
         title  = form.cleaned_data["title"].strip()
         author = form.cleaned_data["author"].strip()
         
-        #CHECK TO ENSURE NO DUPLICATE BOOKS ARE ADDED
         #https://www.w3schools.com/django/django_ref_field_lookups.php
         #same as exact, but case-insensitive
         #get the first dupicate so we can pass in a book for redirect
+
+        #check if this book already exists, if it does, autopopulate with the prexisting book 
+        #do not add duplicate to db
         duplicate = Book.objects.filter(title__icontains=title, author__iexact=author).first()
         if duplicate:
             print("hit duplicate case")
@@ -269,25 +284,28 @@ class ReviewUploadView(LoginRequiredMixin, CreateView):
         return reverse('login')
     
     def get_object(self):
+        """get logged in user"""
         return UserProfile.objects.get(user=self.request.user)
     
-    #ADD COMMENTS
+    #set the inital value of the book to be what the user just uploaded in review form
     def get_initial(self):
         initial = super().get_initial()
         book_id = self.request.GET.get("book")
+        #make sure it exists
         if book_id and Book.objects.filter(pk=book_id).exists():
             initial["book"] = book_id
         return initial
 
     def form_valid(self, form):
-        '''This method handles the form submission and sa{% url 'show_profile' profile.pk %}ves the new object to the Django database.
-        We need to add the foreign key (of the Article) to the Comment object before saving it to the database
+        '''This method handles the form submission and saves the new object to the Django database.
+        We need to add the foreign key profile to the review object and set the date before saving it to the database
         '''
         print(form.cleaned_data)
         #dont add to db, manually add some info
         review = form.save(commit=False)
 
         review.profile = UserProfile.objects.get(user=self.request.user)
+        #set date finished
         review.date_finished = timezone.now()
         #add to db
         review.save()
@@ -295,6 +313,7 @@ class ReviewUploadView(LoginRequiredMixin, CreateView):
 
 
 class UserAnalyticsView(LoginRequiredMixin, DetailView):
+    """A view to display a users personal reading analyticd"""
     model = UserProfile
     template_name = 'project/analytics.html'
     context_object_name = 'profile'
@@ -306,6 +325,8 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
         # get books reviewed by this profile
         books = Book.objects.filter(review__profile=profile)
 
+        #get counts per genre, as well as total book counts and total summation of pages for 
+        #average page count
         book_counts=0
         book_pages_sum=0
         genre_counts = {}
@@ -317,6 +338,7 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
             #use dict to add up counts
             genre_counts[genre] = genre_counts.get(genre, 0) + 1
 
+        #THIS IS FOR GENRE PIE CHART - DISPLAYS A CHART OF WHAT PERCENT OF BOOKS USER READ IN WHAT GENRE
         labels = list(genre_counts.keys())
         values = [genre_counts[genre] for genre in labels]
 
@@ -331,7 +353,11 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
 
         context['genre_pie'] = genre_pie
 
+        #REVIEWS PER YEAR COUNT
+        #get reviews associated w logged in profile
         reviews = Review.objects.filter(profile=profile)
+
+        #these are for calculating the average rating
         rating_sum = 0
         rating_count = 0
         #check books per year
@@ -340,19 +366,21 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
             rating_sum += review.rating 
             rating_count += 1
             if review.date_finished:
+                #add to dict count of book finished per year
                 year = review.date_finished.year
                 year_counts[year] = year_counts.get(year, 0) + 1
         
+        #calculate the average rating and pass in as a context variable, rounding to 2 dec points pout
         avg_rating = rating_sum / rating_count
         context['average_rating'] = float(f"{avg_rating:.2f}")
 
         sorted_years = sorted(year_counts)
         x = sorted_years
         y = [year_counts[year] for year in sorted_years]
-
+        #standardize x axis so we dont get decimal years
         x = [str(x) for x in sorted_years]
 
-
+        #bar chart passed in as obkect of books read per year
         bar_chart = go.Bar(x=x, y=y)
         title_text = f"Books Read Per Year"
 
@@ -364,6 +392,7 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
 
         context['books_year'] = books_year
         
+        #get average amount of pages read and pass in as context variable
         average = book_pages_sum/book_counts
         #get average with trailing of only 2
         context['average'] = float(f"{average:.2f}")
@@ -371,6 +400,7 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
         #get top read books
         total_review_count = Review.objects.filter(profile=profile).count() 
         context['total_review_count'] = total_review_count
+        #check if more than three books otherwise indexing error
         if (total_review_count >= 3):
             rev_one = Review.objects.filter(profile=profile).order_by("-rating", "-date_finished")[0]
             context['rev_one'] = rev_one.book
@@ -383,14 +413,14 @@ class UserAnalyticsView(LoginRequiredMixin, DetailView):
         return context
 
 class ShowAllBooksView(ListView):
-    '''Create a subclass of Books to display all BOOK profiles.'''
+    ''' display all books '''
 
     model = Book
     template_name = 'project/books.html'
     context_object_name = 'books' # how to find the data in the template file
 
     def get_context_data(self, **kwargs):
-
+        #get logged in user as context for navbar
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
 
@@ -401,13 +431,14 @@ class ShowAllBooksView(ListView):
 
 
 class BookDetailView(DetailView):
+    """specific book page for each book"""
     model = Book
     template_name = 'project/book.html'
     context_object_name = 'book'
 
 
     def get_context_data(self, **kwargs):
-
+        #get logged in user as context for navbar
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
 
@@ -418,18 +449,21 @@ class BookDetailView(DetailView):
     
 
 class SuggestionView(LoginRequiredMixin, ListView):
+    """get suggestions based on readers genres and what friends are reading"""
     model = Book
     template_name = 'project/get_suggestions.html'
     context_object_name = 'book'
 
     def get_genres(self):
-        """return a qs of all distinct genres this user has read."""
+        """return a qs of all genres this user has read"""
         profile = UserProfile.objects.get(user=self.request.user)
         books= Book.objects.filter(review__profile=profile) 
 
+        #for if no reviews
         if not books.exists():
             return [], []  
-    
+        
+        #get all genres this reader reads to filter on later
         genre_counts = {}
 
         for book in books:
@@ -458,7 +492,7 @@ class SuggestionView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-
+            #get logged in user
             profile = UserProfile.objects.get(user=self.request.user)
             context['profile'] = profile
             
