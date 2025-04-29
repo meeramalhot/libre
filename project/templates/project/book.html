@@ -92,6 +92,7 @@
 
 <div class="reviews-section">
   <h2>Reviews</h2>
+  {% if book.get_reviews %}
 
   {% for r in book.get_reviews %}
     <div class="book-review">
@@ -103,8 +104,12 @@
         <p class="book-review-text">{{ r.review }}</p>
       </div>
     </div>
+    {% endfor %}
 
-  {% endfor %}
+    {% else %}
+    <p style="text-align: center;">No reviews yet!</p>
+
+    {% endif %}
 </div>
 
 {% endblock %}
