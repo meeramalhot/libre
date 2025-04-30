@@ -36,6 +36,12 @@
         margin: 0 0 5px 0;
     }
 
+    .title-link {
+      text-decoration: none;
+      color: black;
+
+    }
+
     .book-review-text {
       margin: 5px 0;
     }
@@ -107,10 +113,19 @@
 
     <div class="book-review">
       <div class="book-cover">
+        <a href="{% url 'book' book.pk %}">
+
         <img src="{{ book.book_cover.url }}" alt="book cover" style="width:75px; height:120px;">
+
+      </a>
+
       </div>
       <div class="review-content">
+        <a class="title-link" href="{% url 'book' book.pk %}">
+
         <p class="book-title">{{ book.title }} by {{ book.author }}</p>
+      </a>
+
               <p style="font-style: italic;">{{ book.genre }}</p>
         <p class="book-rating">Rating: {{ review.rating }} ⭐</p>
 
