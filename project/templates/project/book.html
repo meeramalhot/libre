@@ -87,6 +87,17 @@
     <h2>{{ book.title }} by {{ book.author }}</h2>
     Genre: {{ book.genre }} <br>
     {{ book.pages }} Pages
+
+    {% if request.user.is_authenticated %}
+  <div style="text-align:center; margin-top:2vh;">
+    <a href="{% url 'review_upload' %}?book={{ book.pk }}"
+       style="padding:1vh 2vh; border-radius:8px; border:1px solid #dd236a;
+              text-decoration:none; font-size:2.2vh; color:#dd236a;">
+      Write a review for this book
+    </a> <br><br>
+  </div>
+{% endif %}
+
     </div>
 
     <div class="book-cover">
